@@ -1,0 +1,67 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "张三",
+      "province": "上海",
+      "city": "普陀区",
+      "age": 27
+    },
+    {
+      "id": 2,
+      "name": "李四",
+      "province": "北京",
+      "city": "朝阳区",
+      "age": 30
+    },
+    {
+      "id": 3,
+      "name": "王五",
+      "province": "广东",
+      "city": "深圳市",
+      "age": 18
+    },
+    {
+      "id": 4,
+      "name": "赵六",
+      "province": "浙江",
+      "city": "杭州市",
+      "age": 50
+    },
+    {
+      "id": 5,
+      "name": "钱七",
+      "province": "江苏",
+      "city": "南京市",
+      "age": 20
+    },
+    {
+      "id": 6,
+      "name": "孙八",
+      "province": "四川",
+      "city": "成都市",
+      "age": 12
+    },
+    {
+      "id": 7,
+      "name": "周九",
+      "province": "湖北",
+      "city": "武汉市",
+      "age": 19
+    },
+    {
+      "id": 8,
+      "name": "吴十",
+      "province": "湖南",
+      "city": "长沙市",
+      "age": 20
+    }
+  ],
+  "fields": {
+    "id": { "type": "number" },
+    "name": { "type": "string" },
+    "province": { "type": "string" },
+    "city": { "type": "string" },
+    "age": { "type": "number" }
+  }
+}

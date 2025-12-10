@@ -1,0 +1,248 @@
+{
+  "base": {
+    "name": "自定义表格",
+    "module_name": "table",
+    "version": "1.0.0",
+    "show": 1
+  },
+  "width": 600,
+  "height": 300,
+  "configuration": [
+    {
+      "name": "table",
+      "displayName": "表格",
+      "value": [
+        {
+          "name": "tableStyle",
+          "displayName": "全局",
+          "value": [
+            {
+              "name": "stripe",
+              "displayName": "斑马纹",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "border",
+              "displayName": "显示边框",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "name": "showHeader",
+              "displayName": "显示表头",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "name": "highlightCurrentRow",
+              "displayName": "高亮当前行",
+              "tip": "点击行时高亮",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "emptyText",
+              "displayName": "空数据提示",
+              "type": "input",
+              "value": "暂无数据"
+            }
+          ]
+        },
+        {
+          "name": "headerStyle",
+          "displayName": "表头",
+          "value": [
+            {
+              "name": "headerHeight",
+              "displayName": "表头高度",
+              "type": "number",
+              "value": 40
+            },
+            {
+              "name": "headerBgColor",
+              "displayName": "表头背景色",
+              "type": "color",
+              "value": "#1a1a2e"
+            },
+            {
+              "name": "headerTextStyle",
+              "displayName": "表头文字",
+              "type": "textStyle",
+              "value": {
+                "fontFamily": "Microsoft Yahei",
+                "fontSize": 12,
+                "color": "#ffffff",
+                "bold": false,
+                "italic": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "bodyStyle",
+          "displayName": "行配置",
+          "value": [
+            {
+              "name": "rowHeight",
+              "displayName": "行高",
+              "type": "number",
+              "value": 40
+            },
+            {
+              "name": "bodyBgColor",
+              "displayName": "背景色",
+              "type": "color",
+              "value": "#16213e"
+            },
+            {
+              "name": "bodyTextStyle",
+              "displayName": "表体文字",
+              "type": "textStyle",
+              "value": {
+                "fontFamily": "Microsoft Yahei",
+                "fontSize": 12,
+                "color": "#e0e0e0",
+                "bold": false,
+                "italic": false
+              }
+            },
+            {
+              "name": "stripeBgColor",
+              "displayName": "斑马纹背景色",
+              "type": "color",
+              "value": "#1a1a2e"
+            },
+            {
+              "name": "hoverBgColor",
+              "displayName": "悬停背景色",
+              "type": "color",
+              "value": "#2a3f5f"
+            },
+            {
+              "name": "currentRowBgColor",
+              "displayName": "高亮行背景色",
+              "type": "color",
+              "value": "#304d6d"
+            },
+            {
+              "name": "borderColor",
+              "displayName": "边框颜色",
+              "type": "color",
+              "value": "#2a2a4a"
+            }
+          ]
+        },
+        {
+          "name": "indexColumn",
+          "displayName": "序号列",
+          "value": [
+            {
+              "name": "showIndex",
+              "displayName": "显示序号列",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "indexFixed",
+              "displayName": "固定列",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "indexLabel",
+              "displayName": "标题",
+              "type": "input",
+              "value": "序号"
+            },
+            {
+              "name": "indexStart",
+              "displayName": "起始值",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "name": "indexWidth",
+              "displayName": "列宽",
+              "type": "number",
+              "value": 60
+            },
+            {
+              "type": "select",
+              "name": "indexAlign",
+              "displayName": "对齐方式",
+              "value": "center",
+              "config": {
+                "options": [
+                  {
+                    "name": "左对齐",
+                    "value": "left"
+                  },
+                  {
+                    "name": "居中",
+                    "value": "center"
+                  },
+                  {
+                    "name": "右对齐",
+                    "value": "right"
+                  }
+                ],
+                "placeholder": "请选择",
+                "allowInput": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "columnConfig",
+          "displayName": "列配置",
+          "value": [
+            {
+              "name": "columns",
+              "displayName": "列定义",
+              "type": "json",
+              "value": "[\n  {\n    \"prop\": \"id\",\n    \"label\": \"ID\",\n    \"width\": 60,\n    \"align\": \"left\"\n  },\n  {\n    \"prop\": \"name\",\n    \"label\": \"姓名\",\n    \"width\": 80\n  },\n  {\n    \"label\": \"地址信息\",\n    \"children\": [\n      {\n        \"prop\": \"province\",\n        \"label\": \"省份\",\n        \"width\": 100\n      },\n      {\n        \"prop\": \"city\",\n        \"label\": \"城市\",\n        \"width\": 100\n      }\n    ]\n  },\n  {\n    \"prop\": \"age\",\n    \"label\": \"年龄\",\n    \"width\": 80,\n    \"align\": \"right\",\n    \"sortable\": true\n  }\n]",
+              "tip": "JSON数组格式，属性说明：<br/><br/>prop(字段名)<br/>label(显示名,支持富文本)<br/>width(列宽)<br/>align(对齐)<br/>fixed(固定列:left/right/true)<br/>sortable(可排序)<br/>sortScript(自定义排序脚本)<br/>children(子列数组,用于多级表头)"
+            }
+          ]
+        },
+        {
+          "name": "scrollConfig",
+          "displayName": "滚动配置",
+          "value": [
+            {
+              "name": "autoScroll",
+              "displayName": "自动滚动",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "scrollSpeed",
+              "displayName": "滚动速度(ms)",
+              "type": "number",
+              "value": 50
+            },
+            {
+              "name": "scrollPauseOnHover",
+              "displayName": "悬停暂停",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "name": "点击行",
+      "value": "rowClick"
+    },
+    {
+      "name": "点击单元格",
+      "value": "cellClick"
+    }
+  ],
+  "children": [],
+  "presetChildren": []
+}

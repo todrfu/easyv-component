@@ -1,0 +1,203 @@
+import React, { forwardRef, useMemo } from 'react'
+import css from '../styles/index.module.css'
+import { isLastFixedLeft, isFirstFixedRight, convertToHeaderRows, flattenColumns, getHeaderRowCount } from '../utils'
+import { MaterialSymbolsArrowDropUp, MaterialSymbolsArrowDropDownRounded } from './Icon'
+
+/**
+ * 表格列组件
+ * 定义表格列宽度，供表头和表体共用以保持对齐
+ * 只渲染叶子节点列
+ */
+function ColGroup({ leafColumns, colWidths }) {
+  return (
+    <colgroup>
+      {leafColumns.map((col, i) => (
+        <col
+          key={col.prop || i}
+          style={{
+            width: colWidths[i] ? `${colWidths[i]}px` : 'auto',
+            minWidth: col.minWidth ? `${col.minWidth}px` : undefined,
+          }}
+        />
+      ))}
+    </colgroup>
+  )
+}
+
+/**
+ * 排序图标组件
+ */
+function SortIcon({ column, sortState }) {
+  if (!column.sortable) return null
+
+  const isActive = sortState.prop === column.prop
+  const isAsc = isActive && sortState.order === 'ascending'
+  const isDesc = isActive && sortState.order === 'descending'
+
+  return (
+    <span className={css.sortWrapper}>
+      <MaterialSymbolsArrowDropUp className={`${css.sortIcon} ${css.ascending} ${isAsc ? css.active : ''}`} />
+      <MaterialSymbolsArrowDropDownRounded
+        className={`${css.sortIcon} ${css.descending} ${isDesc ? css.active : ''}`}
+      />
+    </span>
+  )
+}
+
+/**
+ * 表头内容渲染
+ * 支持富文本（HTML 标签如 <br />）
+ */
+function HeaderContent({ column }) {
+  // 自定义渲染函数
+  if (column.renderHeader) {
+    return column.renderHeader({ column })
+  }
+
+  const label = column.label || column.prop || ''
+
+  // 支持 HTML 标签（如 <br />, <br>, <span> 等）
+  if (typeof label === 'string' && /<[^>]+>/.test(label)) {
+    return <span className={css.headerMultiline} dangerouslySetInnerHTML={{ __html: label }} />
+  }
+
+  // 支持 \n 换行（向后兼容）
+  if (typeof label === 'string' && (label.includes('\\n') || label.includes('\n'))) {
+    const lines = label.split(/\\n|\n/)
+    return (
+      <span className={css.headerMultiline}>
+        {lines.map((line, i) => (
+          <React.Fragment key={i}>
+            {line}
+            {i < lines.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </span>
+    )
+  }
+
+  return label
+}
+
+/**
+ * 表头单元格组件
+ */
+function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedInfo, leafStartIndex }) {
+  // 计算该单元格对应的叶子列索引范围（用于固定列样式）
+  const getLeafColumnIndex = () => {
+    if (column.isLeaf) {
+      // 叶子节点，找到在 leafColumns 中的索引
+      return leafColumns.findIndex((lc) => lc.prop === column.prop)
+    }
+    return leafStartIndex
+  }
+
+  const colIndex = getLeafColumnIndex()
+
+  // 判断是否需要添加阴影边界样式（仅叶子节点）
+  const isLastLeft = column.isLeaf && isLastFixedLeft(leafColumns, colIndex)
+  const isFirstRight = column.isLeaf && isFirstFixedRight(leafColumns, colIndex)
+  const isFixedLeft = column.fixed === 'left' || column.fixed === true
+  const isFixedRight = column.fixed === 'right'
+
+  // 判断是否是最后一列（基于叶子列索引）
+  const lastLeafIndex = colIndex + column.colSpan - 1
+  const isLastColumn = lastLeafIndex === leafColumns.length - 1
+
+  // 计算固定列的 CSS 变量样式
+  const getFixedStyle = () => {
+    const style = {}
+    if (isFixedLeft && fixedInfo.leftPositions[colIndex] !== null) {
+      style['--fixed-left'] = `${fixedInfo.leftPositions[colIndex]}px`
+    } else if (isFixedRight && fixedInfo.rightPositions[colIndex] !== null) {
+      style['--fixed-right'] = `${fixedInfo.rightPositions[colIndex]}px`
+    }
+    return style
+  }
+
+  const fixedStyle = isFixedLeft || isFixedRight ? getFixedStyle() : {}
+
+  // 计算单元格高度
+  const cellHeight = rowHeight * column.rowSpan
+
+  return (
+    <th
+      className={`${css.headerCell} ${column.sortable ? css.sortable : ''} ${isLastLeft ? css.fixedLeftLast : ''} ${
+        isFirstRight ? css.fixedRightFirst : ''
+      } ${isFixedLeft ? css.headerFixedLeft : ''} ${isFixedRight ? css.headerFixedRight : ''} ${
+        isLastColumn ? css.lastColumn : ''
+      }`}
+      style={{
+        textAlign: column.headerAlign || column.align || 'center',
+        height: `${cellHeight}px`,
+        ...fixedStyle,
+      }}
+      colSpan={column.colSpan > 1 ? column.colSpan : undefined}
+      rowSpan={column.rowSpan > 1 ? column.rowSpan : undefined}
+      onClick={() => column.isLeaf && column.sortable && onSort(column)}
+    >
+      <div className={css.cellContent}>
+        <HeaderContent column={column} />
+        {column.isLeaf && <SortIcon column={column} sortState={sortState} />}
+      </div>
+    </th>
+  )
+}
+
+/**
+ * 表头组件
+ * 支持横向滚动同步、列固定和多级表头
+ */
+const TableHeader = forwardRef(function TableHeader(
+  { columns, colWidths, headerHeight, sortState, onSort, minWidth, fixedInfo },
+  ref
+) {
+  // 计算叶子列（用于 colgroup）
+  const leafColumns = useMemo(() => flattenColumns(columns), [columns])
+
+  // 转换为多行表头结构
+  const headerRows = useMemo(() => convertToHeaderRows(columns), [columns])
+
+  // 计算表头行数
+  const rowCount = useMemo(() => getHeaderRowCount(columns), [columns])
+
+  // 计算每行的高度
+  const rowHeight = headerHeight / rowCount
+
+  // 计算每个单元格在叶子列中的起始索引
+  const getLeafStartIndex = (rowIndex, cellIndex) => {
+    let index = 0
+    for (let i = 0; i < cellIndex; i++) {
+      index += headerRows[rowIndex][i].colSpan
+    }
+    return index
+  }
+
+  return (
+    <div ref={ref} className={css.tableHeader}>
+      <table className={css.table} style={{ minWidth }}>
+        <ColGroup leafColumns={leafColumns} colWidths={colWidths} />
+        <thead>
+          {headerRows.map((row, rowIndex) => (
+            <tr key={rowIndex} className={css.headerRow}>
+              {row.map((column, cellIndex) => (
+                <HeaderCell
+                  key={column.prop || `${rowIndex}-${cellIndex}`}
+                  column={column}
+                  rowHeight={rowHeight}
+                  sortState={sortState}
+                  onSort={onSort}
+                  leafColumns={leafColumns}
+                  fixedInfo={fixedInfo}
+                  leafStartIndex={getLeafStartIndex(rowIndex, cellIndex)}
+                />
+              ))}
+            </tr>
+          ))}
+        </thead>
+      </table>
+    </div>
+  )
+})
+
+export default TableHeader

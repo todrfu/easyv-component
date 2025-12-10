@@ -1,0 +1,336 @@
+/**
+ * 本文件是用于Table组件样式的简要说明信息
+ */
+/* EasyV 自定义表格组件样式 */
+
+.tableWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--body-bg, #16213e);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tableWrapper.bordered {
+  border: 1px solid var(--border-color, #2a2a4a);
+}
+
+/* 表格滚动容器 - 支持横向滚动 */
+.tableScrollContainer {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 横向滚动条样式 */
+.tableScrollContainer::-webkit-scrollbar {
+  height: 6px;
+  background: transparent;
+}
+
+.tableScrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableScrollContainer::-webkit-scrollbar-thumb {
+  background: var(--border-color, #2a2a4a);
+  border-radius: 3px;
+}
+
+.tableScrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 表头区域 */
+.tableHeader {
+  flex-shrink: 0;
+  background-color: var(--header-bg, #1a1a2e);
+  overflow: hidden;
+}
+
+/* 原生表格样式 */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.headerRow {
+  /* 原生 tr */
+}
+
+.headerCell {
+  padding: 0 12px;
+  color: var(--header-color, #ffffff);
+  font-family: var(--header-font-family, "Microsoft Yahei");
+  font-size: var(--header-font-size, 14px);
+  font-weight: var(--header-font-weight, bold);
+  font-style: var(--header-font-style, normal);
+  box-sizing: border-box;
+  border-right: 1px solid var(--border-color, #2a2a4a);
+  border-bottom: 1px solid var(--border-color, #2a2a4a);
+  user-select: none;
+  transition: background-color 0.2s ease;
+  vertical-align: middle;
+}
+
+/* 仅对表格最后一列移除右边框，使用专门的类名控制 */
+.headerCell.lastColumn {
+  border-right: none;
+}
+
+.headerCell.sortable {
+  cursor: pointer;
+}
+
+.headerCell.sortable:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 单元格内容容器 */
+.cellContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 4px;
+}
+
+/* 表头多行文本 */
+.headerMultiline {
+  text-align: center;
+  line-height: 1.3;
+  display: inline-block;
+}
+
+/* 排序图标 */
+.sortWrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.sortIcon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.sortIcon.ascending {
+  margin-bottom: -8px;
+}
+
+.sortIcon.descending {
+  margin-top: -8px;
+}
+
+.sortIcon.active {
+  color: #409eff;
+}
+
+/* 表体区域 */
+.tableBody {
+  flex: 1;
+  overflow: auto;
+  /* 使用 overlay 滚动条避免布局跳动 */
+  scrollbar-gutter: stable;
+}
+
+/* 自定义滚动条 - Webkit (Chrome, Safari, Edge) */
+.tableBody::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.tableBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableBody::-webkit-scrollbar-thumb {
+  background: var(--border-color, #2a2a4a);
+  border-radius: 3px;
+}
+
+.tableBody::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 自定义滚动条 - Firefox */
+.tableBody {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color, #2a2a4a) transparent;
+}
+
+/* 表体行 */
+.bodyRow {
+  transition: background-color 0.2s ease;
+}
+
+.bodyRow.striped {
+  background-color: var(--stripe-bg, #1a1a2e);
+}
+
+.bodyRow.hovered {
+  background-color: var(--hover-bg, #2a3f5f);
+}
+
+/* 点击高亮当前行 */
+.bodyRow.currentRow {
+  background-color: var(--current-row-bg, #304d6d);
+}
+
+/* 高亮行 hover 时覆盖 currentRow 背景 */
+.bodyRow.currentRow.hovered {
+  background-color: var(--hover-bg, #2a3f5f);
+}
+
+/* 表体单元格 */
+.bodyCell {
+  padding: 0 12px;
+  color: var(--body-color, #e0e0e0);
+  font-family: var(--body-font-family, "Microsoft Yahei");
+  font-size: var(--body-font-size, 13px);
+  font-weight: var(--body-font-weight, normal);
+  font-style: var(--body-font-style, normal);
+  box-sizing: border-box;
+  border-right: 1px solid var(--border-color, #2a2a4a);
+  border-bottom: 1px solid var(--border-color, #2a2a4a);
+  word-break: break-word;
+  vertical-align: middle;
+}
+
+/* 最后一列移除右边框 */
+.bodyCell:last-child {
+  border-right: none;
+}
+
+/* 最后一行移除下边框 */
+.bodyRow:last-child .bodyCell {
+  border-bottom: none;
+}
+
+.bodyCell.ellipsis {
+  overflow: hidden;
+}
+
+.bodyCell.ellipsis .cellContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 空数据状态 */
+.emptyRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 60px;
+}
+
+.emptyText {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: var(--body-font-size, 13px);
+}
+
+/* 单元格内容对齐快捷选择器 */
+.cellContent[style*="text-align: left"],
+td[style*="text-align: left"] .cellContent {
+  justify-content: flex-start;
+}
+
+.cellContent[style*="text-align: right"],
+td[style*="text-align: right"] .cellContent {
+  justify-content: flex-end;
+}
+
+th[style*="text-align: left"] .cellContent {
+  justify-content: flex-start;
+}
+
+th[style*="text-align: right"] .cellContent {
+  justify-content: flex-end;
+}
+
+/* 固定列样式 */
+.fixedLeftLast {
+  box-shadow: 2px 0 6px -2px rgba(0, 0, 0, 0.3);
+  border-right: none !important;
+}
+
+.fixedRightFirst {
+  box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid var(--border-color, #2a2a4a);
+}
+
+/* 左侧固定列 - 使用 CSS 变量控制位置 */
+.fixedLeft {
+  position: sticky;
+  left: var(--fixed-left, 0);
+  z-index: 2;
+  background-color: var(--body-bg, #16213e);
+  transition: background-color 0.2s ease;
+}
+
+/* 右侧固定列 - 使用 CSS 变量控制位置 */
+.fixedRight {
+  position: sticky;
+  right: var(--fixed-right, 0);
+  z-index: 2;
+  background-color: var(--body-bg, #16213e);
+  transition: background-color 0.2s ease;
+}
+
+/* 固定列在斑马纹行的背景色 */
+.bodyRow.striped .fixedLeft,
+.bodyRow.striped .fixedRight {
+  background-color: var(--stripe-bg, #1a1a2e);
+}
+
+/* 固定列在 hover 行的背景色 */
+.bodyRow.hovered .fixedLeft,
+.bodyRow.hovered .fixedRight {
+  background-color: var(--hover-bg, #2a3f5f);
+}
+
+/* 固定列在高亮行的背景色 */
+.bodyRow.currentRow .fixedLeft,
+.bodyRow.currentRow .fixedRight {
+  background-color: var(--current-row-bg, #304d6d);
+}
+
+/* 高亮行 hover 时固定列的背景色 */
+.bodyRow.currentRow.hovered .fixedLeft,
+.bodyRow.currentRow.hovered .fixedRight {
+  background-color: var(--hover-bg, #2a3f5f);
+}
+
+/* 表头固定列 */
+.headerFixedLeft {
+  position: sticky;
+  left: var(--fixed-left, 0);
+  z-index: 2;
+  background-color: var(--header-bg, #1a1a2e);
+}
+
+.headerFixedRight {
+  position: sticky;
+  right: var(--fixed-right, 0);
+  z-index: 2;
+  background-color: var(--header-bg, #1a1a2e);
+}

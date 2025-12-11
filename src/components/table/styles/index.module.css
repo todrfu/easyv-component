@@ -8,7 +8,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--body-bg, #16213e);
+  background: var(--body-bg, #16213e);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -49,7 +49,7 @@
 /* 表头区域 */
 .tableHeader {
   flex-shrink: 0;
-  background-color: var(--header-bg, #1a1a2e);
+  background: var(--header-bg, #1a1a2e);
   overflow: hidden;
 }
 
@@ -182,21 +182,21 @@
 }
 
 .bodyRow.striped {
-  background-color: var(--stripe-bg, #1a1a2e);
+  background: var(--stripe-bg, #1a1a2e);
 }
 
 .bodyRow.hovered {
-  background-color: var(--hover-bg, #2a3f5f);
+  background: var(--hover-bg, #2a3f5f);
 }
 
 /* 点击高亮当前行 */
 .bodyRow.currentRow {
-  background-color: var(--current-row-bg, #304d6d);
+  background: var(--current-row-bg, #304d6d);
 }
 
 /* 高亮行 hover 时覆盖 currentRow 背景 */
 .bodyRow.currentRow.hovered {
-  background-color: var(--hover-bg, #2a3f5f);
+  background: var(--hover-bg, #2a3f5f);
 }
 
 /* 表体单元格 */
@@ -283,8 +283,8 @@ th[style*="text-align: right"] .cellContent {
   position: sticky;
   left: var(--fixed-left, 0);
   z-index: 2;
-  background-color: var(--body-bg, #16213e);
-  transition: background-color 0.2s ease;
+  background: var(--body-bg, #16213e);
+  transition: background 0.2s ease;
 }
 
 /* 右侧固定列 - 使用 CSS 变量控制位置 */
@@ -292,32 +292,32 @@ th[style*="text-align: right"] .cellContent {
   position: sticky;
   right: var(--fixed-right, 0);
   z-index: 2;
-  background-color: var(--body-bg, #16213e);
-  transition: background-color 0.2s ease;
+  background: var(--body-bg, #16213e);
+  transition: background 0.2s ease;
 }
 
 /* 固定列在斑马纹行的背景色 */
 .bodyRow.striped .fixedLeft,
 .bodyRow.striped .fixedRight {
-  background-color: var(--stripe-bg, #1a1a2e);
+  background: var(--stripe-bg, #1a1a2e);
 }
 
 /* 固定列在 hover 行的背景色 */
 .bodyRow.hovered .fixedLeft,
 .bodyRow.hovered .fixedRight {
-  background-color: var(--hover-bg, #2a3f5f);
+  background: var(--hover-bg, #2a3f5f);
 }
 
 /* 固定列在高亮行的背景色 */
 .bodyRow.currentRow .fixedLeft,
 .bodyRow.currentRow .fixedRight {
-  background-color: var(--current-row-bg, #304d6d);
+  background: var(--current-row-bg, #304d6d);
 }
 
 /* 高亮行 hover 时固定列的背景色 */
 .bodyRow.currentRow.hovered .fixedLeft,
 .bodyRow.currentRow.hovered .fixedRight {
-  background-color: var(--hover-bg, #2a3f5f);
+  background: var(--hover-bg, #2a3f5f);
 }
 
 /* 表头固定列 */
@@ -325,12 +325,32 @@ th[style*="text-align: right"] .cellContent {
   position: sticky;
   left: var(--fixed-left, 0);
   z-index: 2;
-  background-color: var(--header-bg, #1a1a2e);
+  background: var(--header-bg, #1a1a2e);
 }
 
 .headerFixedRight {
   position: sticky;
   right: var(--fixed-right, 0);
   z-index: 2;
-  background-color: var(--header-bg, #1a1a2e);
+  background: var(--header-bg, #1a1a2e);
+}
+
+/* 渲染元素定位容器 */
+.positionedElement {
+  position: absolute;
+  z-index: 1;
+  line-height: 1;
+}
+
+/* 单元格相对定位容器 */
+.cellWithRender {
+  position: relative;
+}
+
+/* 渲染内容容器 */
+.renderContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }

@@ -12,6 +12,51 @@ export const parseBool = (val, defaultVal = false) => {
 }
 
 /**
+ * 解析颜色值
+ * 支持新版颜色组件格式（纯色/渐变色）和旧版纯字符串格式
+ * @param {string|Object} colorValue - 颜色值
+ * @param {string} defaultColor - 默认颜色
+ * @returns {string} CSS 颜色值
+ */
+export const parseColor = (colorValue, defaultColor = '#000000') => {
+  // 空值返回默认色
+  if (!colorValue) return defaultColor
+
+  // 旧版格式：直接是颜色字符串
+  if (typeof colorValue === 'string') return colorValue
+
+  // 新版格式：对象 { type, pure, linear }
+  if (typeof colorValue === 'object') {
+    const { type, pure, linear } = colorValue
+
+    // 纯色模式
+    if (type === 'pure' && pure) {
+      return pure
+    }
+
+    // 渐变色模式
+    if (type === 'linear' && linear) {
+      const { stops, angle = 0 } = linear
+      if (Array.isArray(stops) && stops.length > 0) {
+        const gradientStops = stops
+          .map((stop) => {
+            // offset 可能是 0-1 小数或 0-100 整数，需要判断
+            const offset = stop.offset > 1 ? stop.offset : stop.offset * 100
+            return `${stop.color} ${offset}%`
+          })
+          .join(', ')
+        return `linear-gradient(${angle}deg, ${gradientStops})`
+      }
+    }
+
+    // 如果对象格式不完整，尝试直接取 pure 或返回默认值
+    if (pure) return pure
+  }
+
+  return defaultColor
+}
+
+/**
  * 表格配置解析 Hook
  * 从 EasyV 配置对象中提取并解析各项配置
  * @param {Object} configuration - EasyV 配置对象
@@ -19,14 +64,15 @@ export const parseBool = (val, defaultVal = false) => {
  */
 export function useTableConfig(configuration) {
   const config = configuration || {}
-
   // 提取嵌套配置组
   const tableStyle = config.tableStyle || {}
   const headerStyleConfig = config.headerStyle || {}
-  const bodyStyleConfig = config.bodyStyle || {}
-  const scrollConfigGroup = config.scrollConfig || {}
-  const columnConfig = config.columnConfig || {}
-  const indexColumnConfig = config.indexColumn || {}
+  const rowStyleConfig = config.rowStyle || {}
+  const scrollConfigGroup = tableStyle.scrollConfig || {}
+  const columnStyleConfig = config.columnStyle || {}
+  const columnConfig = columnStyleConfig.columnConfig || {}
+  const indexColumnConfig = columnStyleConfig.indexColumn || {}
+  const advancedStyleConfig = config.advancedStyle || {}
 
   // 表格基础样式配置
   const tableSettings = useMemo(
@@ -56,12 +102,13 @@ export function useTableConfig(configuration) {
   // 表头样式配置
   const headerStyle = useMemo(() => {
     const textStyle = headerStyleConfig.headerTextStyle || {}
+
     return {
       height: Number(headerStyleConfig.headerHeight) || 40,
-      bgColor: headerStyleConfig.headerBgColor || '#1a1a2e',
+      bgColor: parseColor(headerStyleConfig.headerBgColor, '#1a1a2e'),
       fontFamily: textStyle.fontFamily || 'Microsoft Yahei',
       fontSize: Number(textStyle.fontSize) || 14,
-      color: textStyle.color || '#ffffff',
+      color: parseColor(textStyle.color, '#ffffff'),
       fontWeight: parseBool(textStyle.bold, false) ? 'bold' : textStyle.fontWeight || 'normal',
       fontStyle: parseBool(textStyle.italic, false) ? 'italic' : 'normal',
     }
@@ -69,21 +116,21 @@ export function useTableConfig(configuration) {
 
   // 表体样式配置
   const bodyStyle = useMemo(() => {
-    const textStyle = bodyStyleConfig.bodyTextStyle || {}
+    const textStyle = rowStyleConfig.bodyTextStyle || {}
     return {
-      rowHeight: Number(bodyStyleConfig.rowHeight) || 40,
-      bgColor: bodyStyleConfig.bodyBgColor || '#16213e',
+      rowHeight: Number(rowStyleConfig.rowHeight) || 40,
+      bgColor: parseColor(rowStyleConfig.bodyBgColor, '#16213e'),
       fontFamily: textStyle.fontFamily || 'Microsoft Yahei',
       fontSize: Number(textStyle.fontSize) || 13,
-      color: textStyle.color || '#e0e0e0',
+      color: parseColor(textStyle.color, '#e0e0e0'),
       fontWeight: parseBool(textStyle.bold, false) ? 'bold' : textStyle.fontWeight || 'normal',
       fontStyle: parseBool(textStyle.italic, false) ? 'italic' : 'normal',
-      stripeBgColor: bodyStyleConfig.stripeBgColor || '#1a1a2e',
-      borderColor: bodyStyleConfig.borderColor || '#2a2a4a',
-      hoverBgColor: bodyStyleConfig.hoverBgColor || '#2a3f5f',
-      currentRowBgColor: bodyStyleConfig.currentRowBgColor || '#304d6d',
+      stripeBgColor: parseColor(rowStyleConfig.stripeBgColor, '#1a1a2e'),
+      borderColor: parseColor(rowStyleConfig.borderColor, '#2a2a4a'),
+      hoverBgColor: parseColor(rowStyleConfig.hoverBgColor, '#2a3f5f'),
+      currentRowBgColor: parseColor(rowStyleConfig.currentRowBgColor, '#304d6d'),
     }
-  }, [bodyStyleConfig])
+  }, [rowStyleConfig])
 
   // 滚动配置
   const scrollConfig = useMemo(
@@ -114,6 +161,45 @@ export function useTableConfig(configuration) {
   // 默认排序配置
   const defaultSort = config.defaultSort || null
 
+  // 高级样式配置 - 解析样式和渲染脚本函数
+  const advancedStyle = useMemo(() => {
+    /**
+     * 创建脚本函数
+     * @param {string} script - 脚本字符串
+     * @param {Array} params - 参数名列表
+     * @returns {Function|null} 脚本函数
+     */
+    const createScriptFn = (script, params) => {
+      if (!script || typeof script !== 'string' || script.trim() === '') {
+        return null
+      }
+      try {
+        return new Function(...params, script)
+      } catch (e) {
+        console.error('脚本解析错误:', e)
+        return null
+      }
+    }
+
+    // 提取嵌套分组配置
+    const headerCellConfig = advancedStyleConfig.headerCell || {}
+    const cellConfig = advancedStyleConfig.cell || {}
+    const rowStyleConfig = advancedStyleConfig.rowStyle || {}
+
+    return {
+      // 表头单元格样式函数: (column, columnIndex) => styleObject
+      headerCellStyleFn: createScriptFn(headerCellConfig.headerCellStyle, ['column', 'columnIndex']),
+      // 表头单元格渲染函数: (column, columnIndex) => renderConfig
+      headerCellRenderFn: createScriptFn(headerCellConfig.headerCellRender, ['column', 'columnIndex']),
+      // 行样式函数: (row, rowIndex) => styleObject
+      rowStyleFn: createScriptFn(rowStyleConfig.rowStyle, ['row', 'rowIndex']),
+      // 单元格样式函数: (row, column, rowIndex, columnIndex) => styleObject
+      cellStyleFn: createScriptFn(cellConfig.cellStyle, ['row', 'column', 'rowIndex', 'columnIndex']),
+      // 单元格渲染函数: (row, column, rowIndex, columnIndex, value) => renderConfig
+      cellRenderFn: createScriptFn(cellConfig.cellRender, ['row', 'column', 'rowIndex', 'columnIndex', 'value']),
+    }
+  }, [advancedStyleConfig])
+
   return {
     tableSettings,
     headerStyle,
@@ -122,6 +208,7 @@ export function useTableConfig(configuration) {
     columns,
     indexColumn,
     defaultSort,
+    advancedStyle,
   }
 }
 

@@ -9,130 +9,283 @@
   "height": 300,
   "configuration": [
     {
-      "name": "table",
-      "displayName": "表格",
+      "name": "tableStyle",
+      "displayName": "全局",
+      "config": {
+        "layout": "horizontal"
+      },
       "value": [
         {
-          "name": "tableStyle",
-          "displayName": "全局",
+          "name": "stripe",
+          "displayName": "斑马纹",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "name": "border",
+          "displayName": "显示边框",
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "name": "showHeader",
+          "displayName": "显示表头",
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "name": "highlightCurrentRow",
+          "displayName": "高亮当前行",
+          "tip": "点击行时高亮",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "name": "emptyText",
+          "displayName": "空数据提示",
+          "type": "input",
+          "value": "暂无数据"
+        },
+        {
+          "name": "scrollConfig",
+          "displayName": "滚动配置",
           "value": [
             {
-              "name": "stripe",
-              "displayName": "斑马纹",
+              "name": "autoScroll",
+              "displayName": "自动滚动",
               "type": "boolean",
               "value": false
             },
             {
-              "name": "border",
-              "displayName": "显示边框",
+              "name": "scrollSpeed",
+              "displayName": "滚动速度(ms)",
+              "type": "number",
+              "value": 50
+            },
+            {
+              "name": "scrollPauseOnHover",
+              "displayName": "悬停暂停",
               "type": "boolean",
               "value": true
-            },
-            {
-              "name": "showHeader",
-              "displayName": "显示表头",
-              "type": "boolean",
-              "value": true
-            },
-            {
-              "name": "highlightCurrentRow",
-              "displayName": "高亮当前行",
-              "tip": "点击行时高亮",
-              "type": "boolean",
-              "value": false
-            },
-            {
-              "name": "emptyText",
-              "displayName": "空数据提示",
-              "type": "input",
-              "value": "暂无数据"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "headerStyle",
+      "displayName": "表头",
+      "value": [
+        {
+          "name": "headerHeight",
+          "displayName": "高度",
+          "type": "number",
+          "value": 40
         },
         {
-          "name": "headerStyle",
-          "displayName": "表头",
-          "value": [
-            {
-              "name": "headerHeight",
-              "displayName": "表头高度",
-              "type": "number",
-              "value": 40
-            },
-            {
-              "name": "headerBgColor",
-              "displayName": "表头背景色",
-              "type": "color",
-              "value": "#1a1a2e"
-            },
-            {
-              "name": "headerTextStyle",
-              "displayName": "表头文字",
-              "type": "textStyle",
-              "value": {
-                "fontFamily": "Microsoft Yahei",
-                "fontSize": 12,
-                "color": "#ffffff",
-                "bold": false,
-                "italic": true
-              }
+          "name": "headerBgColor",
+          "displayName": "背景色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#1a1a2e",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#1a1a2e"
+                },
+                {
+                  "offset": 50,
+                  "color": "#1a1a2e"
+                },
+                {
+                  "offset": 100,
+                  "color": "#1a1a2e"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
             }
-          ]
+          }
         },
         {
-          "name": "bodyStyle",
-          "displayName": "行配置",
-          "value": [
-            {
-              "name": "rowHeight",
-              "displayName": "行高",
-              "type": "number",
-              "value": 40
-            },
-            {
-              "name": "bodyBgColor",
-              "displayName": "背景色",
-              "type": "color",
-              "value": "#16213e"
-            },
-            {
-              "name": "bodyTextStyle",
-              "displayName": "表体文字",
-              "type": "textStyle",
-              "value": {
-                "fontFamily": "Microsoft Yahei",
-                "fontSize": 12,
-                "color": "#e0e0e0",
-                "bold": false,
-                "italic": false
-              }
-            },
-            {
-              "name": "stripeBgColor",
-              "displayName": "斑马纹背景色",
-              "type": "color",
-              "value": "#1a1a2e"
-            },
-            {
-              "name": "hoverBgColor",
-              "displayName": "悬停背景色",
-              "type": "color",
-              "value": "#2a3f5f"
-            },
-            {
-              "name": "currentRowBgColor",
-              "displayName": "高亮行背景色",
-              "type": "color",
-              "value": "#304d6d"
-            },
-            {
-              "name": "borderColor",
-              "displayName": "边框颜色",
-              "type": "color",
-              "value": "#2a2a4a"
-            }
-          ]
+          "name": "headerTextStyle",
+          "displayName": "文字",
+          "type": "textStyle",
+          "value": {
+            "fontFamily": "Microsoft Yahei",
+            "fontSize": 12,
+            "color": "#ffffff",
+            "bold": false,
+            "italic": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "rowStyle",
+      "displayName": "行配置",
+      "value": [
+        {
+          "name": "rowHeight",
+          "displayName": "高度",
+          "type": "number",
+          "value": 40
         },
+        {
+          "name": "bodyTextStyle",
+          "displayName": "文字",
+          "type": "textStyle",
+          "value": {
+            "fontFamily": "Microsoft Yahei",
+            "fontSize": 12,
+            "color": "#e0e0e0",
+            "bold": false,
+            "italic": false
+          }
+        },
+        {
+          "name": "bodyBgColor",
+          "displayName": "背景色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#16213e",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#16213e"
+                },
+                {
+                  "offset": 50,
+                  "color": "#16213e"
+                },
+                {
+                  "offset": 100,
+                  "color": "#16213e"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
+            }
+          }
+        },
+        {
+          "name": "stripeBgColor",
+          "displayName": "斑马纹背景色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#1a1a2e",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#1a1a2e"
+                },
+                {
+                  "offset": 50,
+                  "color": "#1a1a2e"
+                },
+                {
+                  "offset": 100,
+                  "color": "#1a1a2e"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
+            }
+          }
+        },
+        {
+          "name": "hoverBgColor",
+          "displayName": "悬停背景色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#2a3f5f",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#2a3f5f"
+                },
+                {
+                  "offset": 50,
+                  "color": "#2a3f5f"
+                },
+                {
+                  "offset": 100,
+                  "color": "#2a3f5f"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
+            }
+          }
+        },
+        {
+          "name": "currentRowBgColor",
+          "displayName": "高亮行背景色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#304d6d",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#304d6d"
+                },
+                {
+                  "offset": 50,
+                  "color": "#304d6d"
+                },
+                {
+                  "offset": 100,
+                  "color": "#304d6d"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
+            }
+          }
+        },
+        {
+          "name": "borderColor",
+          "displayName": "边框颜色",
+          "type": "multicolor",
+          "value": {
+            "type": "pure",
+            "pure": "#2a2a4a",
+            "linear": {
+              "stops": [
+                {
+                  "offset": 0,
+                  "color": "#2a2a4a"
+                },
+                {
+                  "offset": 50,
+                  "color": "#2a2a4a"
+                },
+                {
+                  "offset": 100,
+                  "color": "#2a2a4a"
+                }
+              ],
+              "angle": 0,
+              "opacity": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "columnStyle",
+      "displayName": "列配置",
+      "value": [
         {
           "name": "indexColumn",
           "displayName": "序号列",
@@ -205,28 +358,78 @@
               "tip": "JSON数组格式，属性说明：<br/><br/>prop(字段名)<br/>label(显示名,支持富文本)<br/>width(列宽)<br/>align(对齐)<br/>fixed(固定列:left/right/true)<br/>sortable(可排序)<br/>sortScript(自定义排序脚本)<br/>children(子列数组,用于多级表头)"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "advancedStyle",
+      "displayName": "高级配置",
+      "value": [
         {
-          "name": "scrollConfig",
-          "displayName": "滚动配置",
+          "name": "headerCell",
+          "displayName": "表头单元格",
           "value": [
             {
-              "name": "autoScroll",
-              "displayName": "自动滚动",
-              "type": "boolean",
-              "value": false
+              "name": "headerCellStyle",
+              "displayName": "样式",
+              "type": "jscode",
+              "value": "",
+              "config": {
+                "placeholder": "if (column.prop === 'foo') {\n  return { color: '#409eff' };\n}\nreturn {};"
+              },
+              "tip": "表头单元格的自定义样式脚本<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 列索引<br/><br/>需返回样式对象"
             },
             {
-              "name": "scrollSpeed",
-              "displayName": "滚动速度(ms)",
-              "type": "number",
-              "value": 50
+              "name": "headerCellRender",
+              "displayName": "渲染",
+              "type": "jscode",
+              "value": "",
+              "config": {
+                "placeholder": "if (columnIndex === 0) {\n  return {\n    prefix: {\n      type: 'html',\n      position: 'topLeft',\n      content: '<svg width=\"8\" height=\"8\"><polygon points=\"0,0 8,0 0,8\" fill=\"#ff0000\"/></svg>'\n    }\n  };\n}\nreturn {};"
+              },
+              "tip": "表头单元格渲染脚本，支持添加装饰元素<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 列索引<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}"
+            }
+          ]
+        },
+        {
+          "name": "cell",
+          "displayName": "数据单元格",
+          "value": [
+            {
+              "name": "cellStyle",
+              "displayName": "样式",
+              "type": "jscode",
+              "value": "",
+              "config": {
+                "placeholder": "if (column.prop === 'foo') {\n  return { color: '#f56c6c' };\n}\nreturn {};"
+              },
+              "tip": "单元格的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 列索引<br/><br/>需返回样式对象"
             },
             {
-              "name": "scrollPauseOnHover",
-              "displayName": "悬停暂停",
-              "type": "boolean",
-              "value": true
+              "name": "cellRender",
+              "displayName": "渲染",
+              "type": "jscode",
+              "value": "",
+              "config": {
+                "placeholder": "if (column.prop === 'rank') {\n  const icons = {\n    1: 'https://xxx/gold.png',\n    2: 'https://xxx/silver.png',\n    3: 'https://xxx/bronze.png'\n  };\n  if (icons[value]) {\n    return {\n      content: {\n        type: 'image',\n        src: icons[value],\n        width: 24,\n        height: 24\n      },\n      hideText: true\n    };\n  }\n}\nreturn {};"
+              },
+              "tip": "单元格渲染脚本，支持自定义内容<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 列索引<br/>value - 单元格原始值<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}<br/><br/>配置项：<br/>- content: 替换内容<br/>- prefix: 前缀元素<br/>- suffix: 后缀元素<br/>- hideText: 是否隐藏原文字"
+            }
+          ]
+        },
+        {
+          "name": "rowStyle",
+          "displayName": "数据行样式",
+          "value": [
+            {
+              "name": "rowStyle",
+              "displayName": "样式",
+              "type": "jscode",
+              "value": "",
+              "config": {
+                "placeholder": "if (row.status === 'warning') {\n  return { backgroundColor: '#fdf6ec' };\n}\nreturn {};"
+              },
+              "tip": "行的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>rowIndex - 行索引<br/><br/>需返回样式对象"
             }
           ]
         }
@@ -241,6 +444,10 @@
     {
       "name": "点击单元格",
       "value": "cellClick"
+    },
+    {
+      "name": "排序变化",
+      "value": "sortChange"
     }
   ],
   "children": [],

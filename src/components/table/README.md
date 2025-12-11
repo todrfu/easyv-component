@@ -14,6 +14,8 @@
 - ✅ 横向滚动
 - ✅ 自定义事件（行点击、单元格点击）
 - ✅ 空数据提示
+- ✅ 自定义渲染（表头/单元格支持图片、文本、HTML/SVG）
+- ✅ 动态样式（表头单元格、行、单元格样式脚本）
 
 ## 目录结构
 
@@ -24,6 +26,7 @@ table/
 ├── components/
 │   ├── EmptyState.jsx        # 空数据状态组件
 │   ├── Icon.jsx              # 图标组件
+│   ├── RenderElement.jsx     # 渲染元素组件
 │   ├── TableBody.jsx         # 表体组件
 │   ├── TableHeader.jsx       # 表头组件
 │   └── index.js              # 组件导出
@@ -137,12 +140,176 @@ table/
 | scrollSpeed | number | 50 | 滚动速度（ms） |
 | scrollPauseOnHover | boolean | true | 悬停暂停 |
 
+### 高级样式配置 (advancedStyle)
+
+支持类似 Element UI 的动态样式和自定义渲染配置，通过脚本函数动态计算样式或渲染内容。
+
+配置结构：
+
+```
+advancedStyle/
+├── headerCell/           # 表头单元格
+│   ├── headerCellStyle   # 样式脚本
+│   └── headerCellRender  # 渲染脚本
+├── cell/                 # 数据单元格
+│   ├── cellStyle         # 样式脚本
+│   └── cellRender        # 渲染脚本
+└── rowStyle/             # 数据行样式
+    └── rowStyle          # 样式脚本
+```
+
+#### headerCellStyle - 表头单元格样式
+
+可用变量：
+- `column` - 列配置对象
+- `columnIndex` - 列索引
+
+```javascript
+// 示例：特定列设置不同颜色
+if (column.prop === 'name') {
+  return { color: '#409eff' };
+}
+return {};
+```
+
+#### headerCellRender - 表头单元格渲染
+
+可用变量：
+- `column` - 列配置对象
+- `columnIndex` - 列索引
+
+返回渲染配置对象，支持 `prefix`（前缀）、`suffix`（后缀）、`content`（内容替换）、`hideText`（隐藏原文字）。
+
+**支持的元素类型：**
+
+| 类型 | 属性 | 说明 |
+|------|------|------|
+| image | `src`, `width`, `height`, `style` | 图片（支持 URL、Base64、SVG data URI） |
+| text | `content`, `style` | 文本 |
+| html | `content`, `style` | HTML/SVG 内容 |
+
+**位置配置（position）：**
+- `inline` - 行内显示（默认）
+- `topLeft` - 左上角
+- `topRight` - 右上角
+- `bottomLeft` - 左下角
+- `bottomRight` - 右下角
+
+```javascript
+// 示例：第一列左上角添加红色三角形（使用 SVG）
+if (columnIndex === 0) {
+  return {
+    prefix: {
+      type: 'html',
+      position: 'topLeft',
+      content: '<svg width="8" height="8"><polygon points="0,0 8,0 0,8" fill="#ff0000"/></svg>'
+    }
+  };
+}
+return {};
+```
+
+#### rowStyle - 行样式
+
+可用变量：
+- `row` - 行数据对象
+- `rowIndex` - 行索引
+
+```javascript
+// 示例：根据数据状态设置行背景色
+if (row.status === 'warning') {
+  return { backgroundColor: '#fdf6ec' };
+}
+if (row.status === 'danger') {
+  return { backgroundColor: '#fef0f0' };
+}
+return {};
+```
+
+#### cellStyle - 单元格样式
+
+可用变量：
+- `row` - 行数据对象
+- `column` - 列配置对象
+- `rowIndex` - 行索引
+- `columnIndex` - 列索引
+
+```javascript
+// 示例：年龄大于30的显示红色
+if (column.prop === 'age' && row.age > 30) {
+  return { color: '#f56c6c' };
+}
+// 示例：金额为负数显示绿色
+if (column.prop === 'amount' && row.amount < 0) {
+  return { color: '#67c23a' };
+}
+return {};
+```
+
+#### cellRender - 单元格渲染
+
+可用变量：
+- `row` - 行数据对象
+- `column` - 列配置对象
+- `rowIndex` - 行索引
+- `columnIndex` - 列索引
+- `value` - 单元格原始值
+
+返回渲染配置对象，支持 `prefix`（前缀）、`suffix`（后缀）、`content`（内容替换）、`hideText`（隐藏原文字）。
+
+元素类型和位置配置同 `headerCellRender`。
+
+```javascript
+// 示例：排名列前三名显示奖牌图标
+if (column.prop === 'rank') {
+  const icons = {
+    1: 'https://example.com/gold.png',
+    2: 'https://example.com/silver.png',
+    3: 'https://example.com/bronze.png'
+  };
+  if (icons[value]) {
+    return {
+      content: {
+        type: 'image',
+        src: icons[value],
+        width: 24,
+        height: 24
+      },
+      hideText: true
+    };
+  }
+}
+return {};
+```
+
+```javascript
+// 示例：状态列添加图标前缀
+if (column.prop === 'status') {
+  const iconMap = {
+    success: '<svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#67c23a"/></svg>',
+    warning: '<svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#e6a23c"/></svg>',
+    error: '<svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#f56c6c"/></svg>'
+  };
+  if (iconMap[value]) {
+    return {
+      prefix: {
+        type: 'html',
+        content: iconMap[value],
+        style: { marginRight: '4px' }
+      }
+    };
+  }
+}
+return {};
+```
+
 ## 触发器事件
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | rowClick | 点击行 | `{ row, rowIndex, data }` |
 | cellClick | 点击单元格 | `{ row, column, rowIndex, colIndex, value, data }` |
+| sortChange | 排序变化 | `{ prop, order, column, data }` |
 
 ## 使用示例
 

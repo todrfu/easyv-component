@@ -2,6 +2,7 @@ import React, { forwardRef, useMemo } from 'react'
 import css from '../styles/index.module.css'
 import { isLastFixedLeft, isFirstFixedRight, convertToHeaderRows, flattenColumns, getHeaderRowCount } from '../utils'
 import { MaterialSymbolsArrowDropUp, MaterialSymbolsArrowDropDownRounded } from './Icon'
+import { CellContentRenderer } from './RenderElement'
 
 /**
  * 表格列组件
@@ -82,7 +83,7 @@ function HeaderContent({ column }) {
 /**
  * 表头单元格组件
  */
-function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedInfo, leafStartIndex }) {
+function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedInfo, leafStartIndex, headerCellStyleFn, headerCellRenderFn, columnIndex }) {
   // 计算该单元格对应的叶子列索引范围（用于固定列样式）
   const getLeafColumnIndex = () => {
     if (column.isLeaf) {
@@ -120,24 +121,55 @@ function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedIn
   // 计算单元格高度
   const cellHeight = rowHeight * column.rowSpan
 
+  // 计算自定义样式
+  const getCustomStyle = () => {
+    if (!headerCellStyleFn) return {}
+    try {
+      const result = headerCellStyleFn(column, columnIndex)
+      return result && typeof result === 'object' ? result : {}
+    } catch (e) {
+      console.error('表头单元格样式脚本执行错误:', e)
+      return {}
+    }
+  }
+
+  // 计算自定义渲染配置
+  const getRenderConfig = () => {
+    if (!headerCellRenderFn) return null
+    try {
+      const result = headerCellRenderFn(column, columnIndex)
+      return result && typeof result === 'object' ? result : null
+    } catch (e) {
+      console.error('表头单元格渲染脚本执行错误:', e)
+      return null
+    }
+  }
+
+  const customCellStyle = getCustomStyle()
+  const renderConfig = getRenderConfig()
+  const hasRenderConfig = renderConfig !== null
+
   return (
     <th
       className={`${css.headerCell} ${column.sortable ? css.sortable : ''} ${isLastLeft ? css.fixedLeftLast : ''} ${
         isFirstRight ? css.fixedRightFirst : ''
       } ${isFixedLeft ? css.headerFixedLeft : ''} ${isFixedRight ? css.headerFixedRight : ''} ${
         isLastColumn ? css.lastColumn : ''
-      }`}
+      } ${hasRenderConfig ? css.cellWithRender : ''}`}
       style={{
         textAlign: column.headerAlign || column.align || 'center',
         height: `${cellHeight}px`,
         ...fixedStyle,
+        ...customCellStyle,
       }}
       colSpan={column.colSpan > 1 ? column.colSpan : undefined}
       rowSpan={column.rowSpan > 1 ? column.rowSpan : undefined}
       onClick={() => column.isLeaf && column.sortable && onSort(column)}
     >
       <div className={css.cellContent}>
-        <HeaderContent column={column} />
+        <CellContentRenderer renderConfig={renderConfig}>
+          <HeaderContent column={column} />
+        </CellContentRenderer>
         {column.isLeaf && <SortIcon column={column} sortState={sortState} />}
       </div>
     </th>
@@ -149,7 +181,7 @@ function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedIn
  * 支持横向滚动同步、列固定和多级表头
  */
 const TableHeader = forwardRef(function TableHeader(
-  { columns, colWidths, headerHeight, sortState, onSort, minWidth, fixedInfo },
+  { columns, colWidths, headerHeight, sortState, onSort, minWidth, fixedInfo, headerCellStyleFn, headerCellRenderFn },
   ref
 ) {
   // 计算叶子列（用于 colgroup）
@@ -190,6 +222,9 @@ const TableHeader = forwardRef(function TableHeader(
                   leafColumns={leafColumns}
                   fixedInfo={fixedInfo}
                   leafStartIndex={getLeafStartIndex(rowIndex, cellIndex)}
+                  headerCellStyleFn={headerCellStyleFn}
+                  headerCellRenderFn={headerCellRenderFn}
+                  columnIndex={getLeafStartIndex(rowIndex, cellIndex)}
                 />
               ))}
             </tr>

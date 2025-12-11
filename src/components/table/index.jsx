@@ -53,7 +53,8 @@ export default function Table(props = {}) {
     columns: configColumns,
     indexColumn,
     defaultSort,
-  } = useTableConfig(configuration.table)
+    advancedStyle,
+  } = useTableConfig(configuration)
 
   // 解析表格数据
   const tableData = useMemo(() => {
@@ -96,7 +97,31 @@ export default function Table(props = {}) {
   const { sortState, sortedData, handleSort } = useTableSort(tableData, leafColumns, defaultSort)
 
   // 自定义事件处理
-  const { emitRowClick, emitCellClick } = useTableEvents(emit, tableData)
+  const { emitRowClick, emitCellClick, emitSortChange } = useTableEvents(emit, tableData)
+
+  // 包装排序处理函数，同时触发事件
+  const handleSortWithEvent = useCallback(
+    (column) => {
+      handleSort(column)
+      // 计算新的排序状态
+      const sortOrders = column.sortOrders || ['ascending', 'descending', null]
+      let currentIndex = sortOrders.indexOf(sortState.order)
+      if (sortState.prop !== column.prop) {
+        currentIndex = -1
+      }
+      const nextIndex = (currentIndex + 1) % sortOrders.length
+      const nextOrder = sortOrders[nextIndex]
+      // 触发排序变化事件
+      emitSortChange(
+        {
+          prop: nextOrder ? column.prop : null,
+          order: nextOrder,
+        },
+        column
+      )
+    },
+    [handleSort, sortState, emitSortChange]
+  )
 
   // 自动滚动（纵向）
   const autoScrollRef = useAutoScroll(
@@ -152,9 +177,11 @@ export default function Table(props = {}) {
             colWidths={colWidths}
             headerHeight={headerStyle.height}
             sortState={sortState}
-            onSort={handleSort}
+            onSort={handleSortWithEvent}
             minWidth={tableMinWidth}
             fixedInfo={fixedInfo}
+            headerCellStyleFn={advancedStyle.headerCellStyleFn}
+            headerCellRenderFn={advancedStyle.headerCellRenderFn}
           />
         )}
 
@@ -182,6 +209,9 @@ export default function Table(props = {}) {
             onCellClick={emitCellClick}
             fixedInfo={fixedInfo}
             indexStart={indexColumn.start}
+            rowStyleFn={advancedStyle.rowStyleFn}
+            cellStyleFn={advancedStyle.cellStyleFn}
+            cellRenderFn={advancedStyle.cellRenderFn}
           />
         )}
       </div>

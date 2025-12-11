@@ -53,9 +53,34 @@ export function useTableEvents(emit, data) {
     [emit, data]
   )
 
+  /**
+   * 触发排序变化事件
+   * @param {Object} sortState - 排序状态 { prop, order }
+   * @param {Object} column - 列配置
+   */
+  const emitSortChange = useCallback(
+    (sortState, column) => {
+      if (typeof emit === 'function') {
+        emit('sortChange', {
+          prop: sortState.prop,
+          order: sortState.order,
+          column: column
+            ? {
+                prop: column.prop,
+                label: column.label,
+              }
+            : null,
+          data,
+        })
+      }
+    },
+    [emit, data]
+  )
+
   return {
     emitRowClick,
     emitCellClick,
+    emitSortChange,
   }
 }
 

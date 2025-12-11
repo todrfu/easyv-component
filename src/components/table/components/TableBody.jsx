@@ -1,6 +1,7 @@
 import React, { useState, forwardRef } from 'react'
 import css from '../styles/index.module.css'
 import { formatCellValue, isLastFixedLeft, isFirstFixedRight } from '../utils'
+import { CellContentRenderer } from './RenderElement'
 
 /**
  * 表格列组件
@@ -76,6 +77,9 @@ function TableRow({
   onCellClick,
   fixedInfo,
   indexStart,
+  rowStyleFn,
+  cellStyleFn,
+  cellRenderFn,
 }) {
   const isStriped = stripe && rowIndex % 2 === 1
   const isHovered = hoveredRow === rowIndex
@@ -107,6 +111,44 @@ function TableRow({
     return formatCellValue(row, column, rowIdx)
   }
 
+  // 计算行自定义样式
+  const getRowCustomStyle = () => {
+    if (!rowStyleFn) return {}
+    try {
+      const result = rowStyleFn(row, rowIndex)
+      return result && typeof result === 'object' ? result : {}
+    } catch (e) {
+      console.error('行样式脚本执行错误:', e)
+      return {}
+    }
+  }
+
+  // 计算单元格自定义样式
+  const getCellCustomStyle = (column, colIndex) => {
+    if (!cellStyleFn) return {}
+    try {
+      const result = cellStyleFn(row, column, rowIndex, colIndex)
+      return result && typeof result === 'object' ? result : {}
+    } catch (e) {
+      console.error('单元格样式脚本执行错误:', e)
+      return {}
+    }
+  }
+
+  // 计算单元格自定义渲染配置
+  const getCellRenderConfig = (column, colIndex, value) => {
+    if (!cellRenderFn) return null
+    try {
+      const result = cellRenderFn(row, column, rowIndex, colIndex, value)
+      return result && typeof result === 'object' ? result : null
+    } catch (e) {
+      console.error('单元格渲染脚本执行错误:', e)
+      return null
+    }
+  }
+
+  const rowCustomStyle = getRowCustomStyle()
+
   return (
     <tr
       className={`${css.bodyRow} ${isStriped ? css.striped : ''} ${isHovered ? css.hovered : ''} ${
@@ -115,12 +157,16 @@ function TableRow({
       onMouseEnter={() => onHover(rowIndex)}
       onMouseLeave={() => onHover(null)}
       onClick={handleRowClick}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer', ...rowCustomStyle }}
     >
       {columns.map((column, colIndex) => {
         const isFixed = column.fixed === 'left' || column.fixed === true || column.fixed === 'right'
         const fixedStyle = isFixed ? getFixedStyle(column, colIndex) : {}
         const cellValue = getCellValue(column, rowIndex)
+        const rawValue = column.isIndexColumn ? (indexStart + rowIndex) : row[column.prop]
+        const cellCustomStyle = getCellCustomStyle(column, colIndex)
+        const renderConfig = getCellRenderConfig(column, colIndex, rawValue)
+        const hasRenderConfig = renderConfig !== null
 
         return (
           <td
@@ -129,12 +175,13 @@ function TableRow({
               isLastFixedLeft(columns, colIndex) ? css.fixedLeftLast : ''
             } ${isFirstFixedRight(columns, colIndex) ? css.fixedRightFirst : ''} ${
               column.fixed === 'left' || column.fixed === true ? css.fixedLeft : ''
-            } ${column.fixed === 'right' ? css.fixedRight : ''}`}
+            } ${column.fixed === 'right' ? css.fixedRight : ''} ${hasRenderConfig ? css.cellWithRender : ''}`}
             style={{
               textAlign: column.align || 'center',
               height: `${rowHeight}px`,
               cursor: 'pointer',
               ...fixedStyle,
+              ...cellCustomStyle,
             }}
             title={column.showOverflowTooltip ? String(cellValue) : undefined}
             onClick={(e) => {
@@ -148,7 +195,9 @@ function TableRow({
             }}
           >
             <div className={css.cellContent}>
-              {column.render ? column.render({ row, column, $index: rowIndex }) : cellValue}
+              <CellContentRenderer renderConfig={renderConfig}>
+                {column.render ? column.render({ row, column, $index: rowIndex }) : cellValue}
+              </CellContentRenderer>
             </div>
           </td>
         )
@@ -177,6 +226,9 @@ const TableBody = forwardRef(function TableBody(
     onCellClick,
     fixedInfo,
     indexStart = 1,
+    rowStyleFn,
+    cellStyleFn,
+    cellRenderFn,
   },
   ref
 ) {
@@ -222,6 +274,9 @@ const TableBody = forwardRef(function TableBody(
               onCellClick={onCellClick}
               fixedInfo={fixedInfo}
               indexStart={indexStart}
+              rowStyleFn={rowStyleFn}
+              cellStyleFn={cellStyleFn}
+              cellRenderFn={cellRenderFn}
             />
           ))}
         </tbody>

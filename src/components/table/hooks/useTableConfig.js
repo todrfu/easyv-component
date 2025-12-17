@@ -75,6 +75,7 @@ export function useTableConfig(configuration) {
   const columnConfig = columnStyleConfig.columnConfig || {}
   const indexColumnConfig = columnStyleConfig.indexColumn || {}
   const advancedStyleConfig = config.advancedStyle || {}
+  const expandConfigGroup = config.expandConfig || {}
 
   // 表格基础样式配置
   const tableSettings = useMemo(
@@ -217,6 +218,42 @@ export function useTableConfig(configuration) {
     }
   }, [advancedStyleConfig])
 
+  // 展开行配置
+  const expandConfig = useMemo(() => {
+    // 解析展开内容渲染脚本
+    const renderScript = expandConfigGroup.expandRenderScript
+    let expandRenderFn = null
+    if (renderScript && typeof renderScript === 'string' && renderScript.trim() !== '') {
+      try {
+        expandRenderFn = new Function('row', 'rowIndex', renderScript)
+      } catch (e) {
+        console.error('展开内容渲染脚本解析错误:', e)
+      }
+    }
+
+    return {
+      enabled: parseBool(expandConfigGroup.enableExpand, false),
+      iconColumn: expandConfigGroup.expandIconColumn || 'separate', // 'first' | 'separate'
+      columnWidth: Number(expandConfigGroup.expandColumnWidth) || 48,
+      columnLabel: expandConfigGroup.expandColumnLabel || '',
+      accordion: parseBool(expandConfigGroup.accordion, false),
+      defaultExpandAll: parseBool(expandConfigGroup.defaultExpandAll, false),
+      expandIcon: expandConfigGroup.expandIcon || '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>',
+      collapseIcon: expandConfigGroup.collapseIcon || '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>',
+      expandRenderFn,
+    }
+  }, [
+    expandConfigGroup.enableExpand,
+    expandConfigGroup.expandIconColumn,
+    expandConfigGroup.expandColumnWidth,
+    expandConfigGroup.expandColumnLabel,
+    expandConfigGroup.accordion,
+    expandConfigGroup.defaultExpandAll,
+    expandConfigGroup.expandIcon,
+    expandConfigGroup.collapseIcon,
+    expandConfigGroup.expandRenderScript,
+  ])
+
   return {
     tableSettings,
     headerStyle,
@@ -226,6 +263,7 @@ export function useTableConfig(configuration) {
     indexColumn,
     defaultSort,
     advancedStyle,
+    expandConfig,
   }
 }
 

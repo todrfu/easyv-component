@@ -2,6 +2,7 @@ import React, { useState, forwardRef } from 'react'
 import css from '../styles/index.module.css'
 import { formatCellValue, isLastFixedLeft, isFirstFixedRight } from '../utils'
 import { CellContentRenderer } from './RenderElement'
+import ExpandRow from './ExpandRow'
 
 /**
  * 表格列组件
@@ -80,6 +81,9 @@ function TableRow({
   rowStyleFn,
   cellStyleFn,
   cellRenderFn,
+  expandConfig,
+  isExpanded,
+  onToggleExpand,
 }) {
   const isStriped = stripe && rowIndex % 2 === 1
   const isHovered = hoveredRow === rowIndex
@@ -170,6 +174,37 @@ function TableRow({
         const renderConfig = getCellRenderConfig(column, colIndex, rawValue)
         const hasRenderConfig = renderConfig !== null
 
+        // 展开列特殊处理
+        if (column.isExpandColumn) {
+          return (
+            <td
+              key="__expand__"
+              className={`${css.bodyCell} ${css.expandIconCell} ${
+                isLastFixedLeft(columns, colIndex) ? css.fixedLeftLast : ''
+              } ${isFirstFixedRight(columns, colIndex) ? css.fixedRightFirst : ''} ${
+                column.fixed === 'left' || column.fixed === true ? css.fixedLeft : ''
+              } ${column.fixed === 'right' ? css.fixedRight : ''}`}
+              style={{
+                textAlign: 'center',
+                height: `${rowHeight}px`,
+                cursor: 'pointer',
+                ...fixedStyle,
+              }}
+              onClick={(e) => {
+                e.stopPropagation()
+                onToggleExpand(rowIndex)
+              }}
+            >
+              <div
+                className={css.expandIcon}
+                dangerouslySetInnerHTML={{
+                  __html: isExpanded ? expandConfig.collapseIcon : expandConfig.expandIcon,
+                }}
+              />
+            </td>
+          )
+        }
+
         return (
           <td
             key={column.isIndexColumn ? '__index__' : column.prop || colIndex}
@@ -187,6 +222,16 @@ function TableRow({
             }}
             title={column.showOverflowTooltip ? String(cellValue) : undefined}
             onClick={(e) => {
+              // 展开列已经单独处理
+              if (column.isExpandColumn) {
+                return
+              }
+              // 如果展开图标在第一列模式，且当前是第一列，则触发展开
+              if (expandConfig?.enabled && expandConfig.iconColumn === 'first' && colIndex === 0) {
+                e.stopPropagation()
+                onToggleExpand(rowIndex)
+                return
+              }
               // 序号列不触发单元格点击事件
               if (column.isIndexColumn) {
                 return
@@ -197,6 +242,15 @@ function TableRow({
             }}
           >
             <div className={css.cellContent}>
+              {/* 第一列模式：在表格的第一列显示展开图标 */}
+              {expandConfig?.enabled && expandConfig.iconColumn === 'first' && colIndex === 0 && (
+                <span
+                  className={css.expandIconInline}
+                  dangerouslySetInnerHTML={{
+                    __html: isExpanded ? expandConfig.collapseIcon : expandConfig.expandIcon,
+                  }}
+                />
+              )}
               <CellContentRenderer renderConfig={renderConfig}>
                 {column.render ? column.render({ row, column, $index: rowIndex }) : cellValue}
               </CellContentRenderer>
@@ -231,6 +285,9 @@ const TableBody = forwardRef(function TableBody(
     rowStyleFn,
     cellStyleFn,
     cellRenderFn,
+    expandConfig,
+    expandedRows,
+    onToggleExpand,
   },
   ref
 ) {
@@ -259,28 +316,43 @@ const TableBody = forwardRef(function TableBody(
       <table className={css.table} style={{ minWidth }}>
         <ColGroup columns={columns} colWidths={colWidths} />
         <tbody>
-          {data.map((row, rowIndex) => (
-            <TableRow
-              key={row.id || rowIndex}
-              row={row}
-              rowIndex={rowIndex}
-              columns={columns}
-              colWidths={colWidths}
-              rowHeight={rowHeight}
-              stripe={stripe}
-              highlightCurrentRow={highlightCurrentRow}
-              hoveredRow={hoveredRow}
-              currentRow={currentRow}
-              onHover={setHoveredRow}
-              onRowClick={handleRowClick}
-              onCellClick={onCellClick}
-              fixedInfo={fixedInfo}
-              indexStart={indexStart}
-              rowStyleFn={rowStyleFn}
-              cellStyleFn={cellStyleFn}
-              cellRenderFn={cellRenderFn}
-            />
-          ))}
+          {data.map((row, rowIndex) => {
+            const isExpanded = expandedRows?.has(rowIndex) || false
+            return (
+              <React.Fragment key={row.id || rowIndex}>
+                <TableRow
+                  row={row}
+                  rowIndex={rowIndex}
+                  columns={columns}
+                  colWidths={colWidths}
+                  rowHeight={rowHeight}
+                  stripe={stripe}
+                  highlightCurrentRow={highlightCurrentRow}
+                  hoveredRow={hoveredRow}
+                  currentRow={currentRow}
+                  onHover={setHoveredRow}
+                  onRowClick={handleRowClick}
+                  onCellClick={onCellClick}
+                  fixedInfo={fixedInfo}
+                  indexStart={indexStart}
+                  rowStyleFn={rowStyleFn}
+                  cellStyleFn={cellStyleFn}
+                  cellRenderFn={cellRenderFn}
+                  expandConfig={expandConfig}
+                  isExpanded={isExpanded}
+                  onToggleExpand={onToggleExpand}
+                />
+                {expandConfig?.enabled && isExpanded && (
+                  <ExpandRow
+                    row={row}
+                    rowIndex={rowIndex}
+                    colSpan={columns.length}
+                    expandRenderFn={expandConfig.expandRenderFn}
+                  />
+                )}
+              </React.Fragment>
+            )
+          })}
         </tbody>
       </table>
     </div>

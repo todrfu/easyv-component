@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useCallback } from 'react'
 import css from './styles/index.module.css'
 
 // Hooks
-import { useTableConfig, useTableSort, useAutoScroll, useTableEvents } from './hooks'
+import { useTableConfig, useTableSort, useAutoScroll, useTableEvents, useExpandRow } from './hooks'
 
 // Components
 import { TableHeader, TableBody, EmptyState } from './components'
@@ -54,6 +54,7 @@ export default function Table(props = {}) {
     indexColumn,
     defaultSort,
     advancedStyle,
+    expandConfig,
   } = useTableConfig(configuration)
 
   // 解析表格数据
@@ -92,24 +93,52 @@ export default function Table(props = {}) {
     }
   }, [indexColumn])
 
+  // 生成展开列配置（仅在启用且为 separate 模式时生成）
+  const expandColumnConfig = useMemo(() => {
+    if (!expandConfig?.enabled || expandConfig.iconColumn !== 'separate') return null
+    return {
+      prop: '__expand__',
+      label: expandConfig.columnLabel || '',
+      width: expandConfig.columnWidth || 48,
+      align: 'center',
+      fixed: 'left',
+      isExpandColumn: true,
+      sortable: false,
+    }
+  }, [expandConfig])
+
   // 生成有效列配置（配置优先，否则从数据自动生成）
   // 保留原始嵌套结构用于表头渲染
   const effectiveColumns = useMemo(() => {
     let cols = configColumns.length > 0 ? configColumns : generateColumnsFromData(tableData)
 
-    // 如果启用序号列，插入到最前面
-    if (indexColumnConfig) {
-      cols = [indexColumnConfig, ...cols]
+    // 按正确顺序插入特殊列
+    const specialCols = []
+
+    // 1. 展开列（separate 模式）应该在最左侧
+    if (expandColumnConfig) {
+      specialCols.push(expandColumnConfig)
     }
 
+    // 2. 序号列在展开列之后
+    if (indexColumnConfig) {
+      specialCols.push(indexColumnConfig)
+    }
+
+    // 3. 数据列在最后
+    cols = [...specialCols, ...cols]
+
     return cols
-  }, [configColumns, tableData, indexColumnConfig])
+  }, [configColumns, tableData, expandColumnConfig, indexColumnConfig])
 
   // 扁平化列配置（用于表体渲染和列宽计算）
   const leafColumns = useMemo(() => flattenColumns(effectiveColumns), [effectiveColumns])
 
   // 排序逻辑（使用扁平化后的叶子列）
   const { sortState, sortedData, handleSort } = useTableSort(tableData, leafColumns, defaultSort)
+
+  // 展开行状态管理
+  const { expandedRows, toggleRowExpand } = useExpandRow(expandConfig, sortedData)
 
   // 自定义事件处理
   const { emitRowClick, emitCellClick, emitSortChange } = useTableEvents(emit, tableData)
@@ -244,6 +273,9 @@ export default function Table(props = {}) {
             rowStyleFn={advancedStyle.rowStyleFn}
             cellStyleFn={advancedStyle.cellStyleFn}
             cellRenderFn={advancedStyle.cellRenderFn}
+            expandConfig={expandConfig}
+            expandedRows={expandedRows}
+            onToggleExpand={toggleRowExpand}
           />
         )}
       </div>

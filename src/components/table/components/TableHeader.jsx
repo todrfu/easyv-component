@@ -55,7 +55,8 @@ function HeaderContent({ column }) {
     return column.renderHeader({ column })
   }
 
-  const label = column.label || column.prop || ''
+  // 所有列都允许空标题
+  const label = column.label !== undefined ? column.label : ''
 
   // 支持 HTML 标签（如 <br />, <br>, <span> 等）
   if (typeof label === 'string' && /<[^>]+>/.test(label)) {

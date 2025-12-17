@@ -2,66 +2,126 @@
   "data": [
     {
       "id": 1,
-      "name": "张三",
-      "province": "上海",
-      "city": "普陀区",
-      "age": 27
+      "name": "技术部",
+      "manager": "张三",
+      "employeeCount": 25,
+      "status": "正常",
+      "children": [
+        {
+          "id": 11,
+          "name": "前端组",
+          "manager": "李四",
+          "employeeCount": 8,
+          "status": "正常",
+          "children": [
+            {
+              "id": 111,
+              "name": "React 团队",
+              "manager": "王五",
+              "employeeCount": 4,
+              "status": "正常"
+            },
+            {
+              "id": 112,
+              "name": "Vue 团队",
+              "manager": "赵六",
+              "employeeCount": 4,
+              "status": "正常"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "后端组",
+          "manager": "钱七",
+          "employeeCount": 10,
+          "status": "正常",
+          "children": [
+            {
+              "id": 121,
+              "name": "Java 团队",
+              "manager": "孙八",
+              "employeeCount": 6,
+              "status": "正常"
+            },
+            {
+              "id": 122,
+              "name": "Python 团队",
+              "manager": "周九",
+              "employeeCount": 4,
+              "status": "正常"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "测试组",
+          "manager": "吴十",
+          "employeeCount": 7,
+          "status": "正常"
+        }
+      ]
     },
     {
       "id": 2,
-      "name": "李四",
-      "province": "北京",
-      "city": "朝阳区",
-      "age": 30
+      "name": "产品部",
+      "manager": "刘明",
+      "employeeCount": 15,
+      "status": "正常",
+      "children": [
+        {
+          "id": 21,
+          "name": "产品设计组",
+          "manager": "陈华",
+          "employeeCount": 8,
+          "status": "正常"
+        },
+        {
+          "id": 22,
+          "name": "产品运营组",
+          "manager": "杨丽",
+          "employeeCount": 7,
+          "status": "正常"
+        }
+      ]
     },
     {
       "id": 3,
-      "name": "王五",
-      "province": "广东",
-      "city": "深圳市",
-      "age": 18
+      "name": "市场部",
+      "manager": "赵敏",
+      "employeeCount": 20,
+      "status": "正常",
+      "children": [
+        {
+          "id": 31,
+          "name": "市场推广",
+          "manager": "吴磊",
+          "employeeCount": 10,
+          "status": "正常"
+        },
+        {
+          "id": 32,
+          "name": "商务合作",
+          "manager": "周杰",
+          "employeeCount": 10,
+          "status": "正常"
+        }
+      ]
     },
     {
       "id": 4,
-      "name": "赵六",
-      "province": "浙江",
-      "city": "杭州市",
-      "age": 50
-    },
-    {
-      "id": 5,
-      "name": "钱七",
-      "province": "江苏",
-      "city": "南京市",
-      "age": 20
-    },
-    {
-      "id": 6,
-      "name": "孙八",
-      "province": "四川",
-      "city": "成都市",
-      "age": 12
-    },
-    {
-      "id": 7,
-      "name": "周九",
-      "province": "湖北",
-      "city": "武汉市",
-      "age": 19
-    },
-    {
-      "id": 8,
-      "name": "吴十",
-      "province": "湖南",
-      "city": "长沙市",
-      "age": 20
+      "name": "行政部",
+      "manager": "孙燕",
+      "employeeCount": 8,
+      "status": "正常"
     }
   ],
   "fields": {
     "id": { "type": "number" },
     "name": { "type": "string" },
-    "province": { "type": "string" },
-    "city": { "type": "string" },
-    "age": { "type": "number" }
+    "manager": { "type": "string" },
+    "employeeCount": { "type": "number" },
+    "status": { "type": "string" },
+    "children": { "type": "array" }
   }
 }

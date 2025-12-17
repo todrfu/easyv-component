@@ -76,6 +76,7 @@ export function useTableConfig(configuration) {
   const indexColumnConfig = columnStyleConfig.indexColumn || {}
   const advancedStyleConfig = config.advancedStyle || {}
   const expandConfigGroup = config.expandConfig || {}
+  const treeConfigGroup = config.treeConfig || {}
 
   // 表格基础样式配置
   const tableSettings = useMemo(
@@ -254,6 +255,44 @@ export function useTableConfig(configuration) {
     expandConfigGroup.expandRenderScript,
   ])
 
+  // 树形表格配置
+  const treeConfig = useMemo(() => {
+    // 解析懒加载脚本
+    const lazyScript = treeConfigGroup.lazyLoadScript
+    let lazyLoadFn = null
+    if (lazyScript && typeof lazyScript === 'string' && lazyScript.trim() !== '') {
+      try {
+        lazyLoadFn = new Function('row', 'resolve', lazyScript)
+      } catch (e) {
+        console.error('树形懒加载脚本解析错误:', e)
+      }
+    }
+
+    return {
+      enabled: parseBool(treeConfigGroup.enableTree, false),
+      childrenField: treeConfigGroup.childrenField || 'children',
+      treeColumn: treeConfigGroup.treeColumn || 'name',
+      indent: Number(treeConfigGroup.indent) || 20,
+      defaultExpandAll: parseBool(treeConfigGroup.defaultExpandAll, false),
+      defaultExpandLevel: Number(treeConfigGroup.defaultExpandLevel) ?? 1,
+      treeExpandIcon: treeConfigGroup.treeExpandIcon || '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>',
+      treeCollapseIcon: treeConfigGroup.treeCollapseIcon || '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>',
+      lazy: parseBool(treeConfigGroup.lazy, false),
+      lazyLoadFn,
+    }
+  }, [
+    treeConfigGroup.enableTree,
+    treeConfigGroup.childrenField,
+    treeConfigGroup.treeColumn,
+    treeConfigGroup.indent,
+    treeConfigGroup.defaultExpandAll,
+    treeConfigGroup.defaultExpandLevel,
+    treeConfigGroup.treeExpandIcon,
+    treeConfigGroup.treeCollapseIcon,
+    treeConfigGroup.lazy,
+    treeConfigGroup.lazyLoadScript,
+  ])
+
   return {
     tableSettings,
     headerStyle,
@@ -264,6 +303,7 @@ export function useTableConfig(configuration) {
     defaultSort,
     advancedStyle,
     expandConfig,
+    treeConfig,
   }
 }
 

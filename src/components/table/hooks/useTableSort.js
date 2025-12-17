@@ -87,6 +87,7 @@ export function useTableSort(data, columns, defaultSort) {
       setSortState({
         prop: nextOrder ? column.prop : null,
         order: nextOrder,
+        column: nextOrder ? column : null, // 保存列对象，用于树形排序获取排序脚本
       })
     },
     [sortState]

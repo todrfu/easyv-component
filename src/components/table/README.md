@@ -8,14 +8,15 @@
 - ✅ 列固定（支持左侧/右侧固定）
 - ✅ 列排序（支持自定义排序脚本）
 - ✅ 序号列（可配置起始值、对齐方式、固定）
+- ✅ 展开行（支持自定义HTML内容）
+- ✅ 树形表格（支持层级数据、懒加载）
 - ✅ 斑马纹
 - ✅ 行高亮（hover、点击高亮）
-- ✅ 自动滚动
-- ✅ 横向滚动
 - ✅ 自定义事件（行点击、单元格点击）
-- ✅ 空数据提示
 - ✅ 自定义渲染（表头/单元格支持图片、文本、HTML/SVG）
 - ✅ 动态样式（表头单元格、行、单元格样式脚本）
+
+<img src="./table.png" alt="Table" style="width: 300px;max-height:50%;" />
 
 ## 目录结构
 
@@ -139,6 +140,284 @@ table/
 | autoScroll | boolean | false | 自动滚动 |
 | scrollSpeed | number | 50 | 滚动速度（ms） |
 | scrollPauseOnHover | boolean | true | 悬停暂停 |
+
+### 滚动条样式配置 (scrollbarStyle)
+
+自定义表格滚动条的轨道和滑块样式。
+
+#### 轨道配置 (track)
+
+| 配置项 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| trackWidth | number | 2 | 轨道粗细（px） |
+| trackColor | color | #E6F7FF | 轨道颜色 |
+| trackOpacity | number | 20 | 轨道透明度（0-100） |
+| trackRadius | number | 0 | 轨道圆角（px） |
+
+#### 滑块配置 (thumb)
+
+| 配置项 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| thumbWidth | number | 2 | 滑块粗细（px） |
+| thumbColor | color | #E6F7FF | 滑块颜色 |
+| thumbOpacity | number | 45 | 滑块透明度（0-100） |
+| thumbRadius | number | 0 | 滑块圆角（px） |
+
+**注意事项：**
+- 滚动条样式仅对 Webkit 内核浏览器（Chrome、Safari、Edge）完全生效
+- Firefox 支持基本的颜色和宽度设置，但圆角等高级样式可能不生效
+- 透明度值范围为 0-100，会自动转换为 CSS 的 0-1 范围
+- 悬停时滑块透明度会自动增加 20%
+
+### 展开行配置 (expandConfig)
+
+展开行功能允许点击行时在下方展示详细信息，支持自定义HTML内容渲染。
+
+| 配置项 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| enableExpand | boolean | false | 启用展开行 |
+| expandIconColumn | string | "separate" | 展开图标位置（"first": 第一列，"separate": 单独列） |
+| expandColumnWidth | number | 48 | 展开列宽度（仅 separate 模式） |
+| expandColumnLabel | string | "" | 展开列标题（仅 separate 模式） |
+| accordion | boolean | false | 手风琴模式（同时只能展开一行） |
+| defaultExpandAll | boolean | false | 默认全部展开 |
+| expandIcon | html | - | 展开图标（HTML/SVG） |
+| collapseIcon | html | - | 收起图标（HTML/SVG） |
+| expandRenderScript | code | - | 展开内容渲染函数 |
+
+#### 展开内容渲染函数
+
+展开内容渲染函数用于生成展开后显示的HTML内容。
+
+**函数签名：**
+```javascript
+function(row, rowIndex) {
+  // row: 当前行数据对象
+  // rowIndex: 行索引（从0开始）
+  // 返回: HTML字符串
+  return `<div>...</div>`
+}
+```
+
+**示例1：显示行详细信息**
+```javascript
+return `
+  <div style="padding: 20px; background: #f5f7fa;">
+    <h3 style="margin: 0 0 15px 0; color: #303133;">详细信息</h3>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+      <div><strong>ID:</strong> ${row.id}</div>
+      <div><strong>姓名:</strong> ${row.name}</div>
+      <div><strong>年龄:</strong> ${row.age}</div>
+      <div><strong>城市:</strong> ${row.city}</div>
+    </div>
+  </div>
+`
+```
+
+**示例2：显示富文本内容**
+```javascript
+return `
+  <div style="padding: 20px; line-height: 1.6;">
+    <p>${row.description || '暂无描述'}</p>
+    ${row.imageUrl ? `<img src="${row.imageUrl}" style="max-width: 100%; margin-top: 10px;">` : ''}
+  </div>
+`
+```
+
+**示例3：条件渲染**
+```javascript
+if (row.hasDetails) {
+  return `<div style="padding: 20px;">${row.details}</div>`
+}
+return `<div style="padding: 20px; color: #909399;">该项无详细信息</div>`
+```
+
+#### 图标位置模式
+
+**单独列模式 (separate)**：
+- 在表格最左侧创建一个专门的展开列
+- 适合：需要明确的展开/收起操作区域
+- 特点：独立的固定列，不影响数据列
+
+**第一列模式 (first)**：
+- 在表格第一列（可能是序号列或第一个数据列）内嵌展开图标
+- 适合：节省空间，图标与数据在同一列
+- 特点：图标显示在单元格内容前方
+
+### 树形表格配置 (treeConfig)
+
+树形表格功能用于展示具有层级关系的数据，支持展开/收起子节点、懒加载等特性。
+
+**注意：树形表格与展开行功能可以同时使用，但作用不同：**
+- 树形表格：展示层级结构数据（如组织架构、文件目录）
+- 展开行：显示单行详细信息（如详情面板）
+
+| 配置项 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| enableTree | boolean | false | 启用树形表格 |
+| childrenField | string | "children" | 数据中子级数组的字段名 |
+| treeColumn | string | "name" | 显示树形结构的列（字段 prop 值） |
+| indent | number | 20 | 每层级缩进像素 |
+| defaultExpandAll | boolean | false | 默认全部展开 |
+| defaultExpandLevel | number | 1 | 默认展开层级（0=全部收起，-1=全部展开） |
+| treeExpandIcon | html | - | 展开图标（HTML/SVG） |
+| treeCollapseIcon | html | - | 收起图标（HTML/SVG） |
+| lazy | boolean | false | 启用懒加载 |
+| lazyLoadScript | code | - | 懒加载函数 |
+
+#### 树形数据格式
+
+**普通模式（非懒加载）**：
+
+数据中需要包含 `children` 字段（或自定义的 `childrenField`）来表示子节点。
+
+```javascript
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "一级节点1",
+      "children": [
+        {
+          "id": 11,
+          "name": "二级节点1-1",
+          "children": [
+            { "id": 111, "name": "三级节点1-1-1" }
+          ]
+        },
+        { "id": 12, "name": "二级节点1-2" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "一级节点2",
+      "children": [
+        { "id": 21, "name": "二级节点2-1" }
+      ]
+    }
+  ]
+}
+```
+
+**懒加载模式**：
+
+数据中使用 `hasChildren` 字段标识节点是否有子节点。
+
+```javascript
+{
+  "data": [
+    { "id": 1, "name": "一级节点1", "hasChildren": true },
+    { "id": 2, "name": "一级节点2", "hasChildren": false }
+  ]
+}
+```
+
+#### 懒加载函数
+
+懒加载函数在用户点击展开图标时调用，用于异步加载子节点数据。
+
+**函数签名：**
+```javascript
+function(row, resolve) {
+  // row: 当前节点数据对象
+  // resolve: 回调函数，传入子节点数据数组
+}
+```
+
+**示例1：模拟异步加载**
+```javascript
+setTimeout(() => {
+  const children = [
+    { id: `${row.id}-1`, name: `${row.name}-子节点1`, hasChildren: true },
+    { id: `${row.id}-2`, name: `${row.name}-子节点2`, hasChildren: false }
+  ];
+  resolve(children);
+}, 500);
+```
+
+**示例2：通过API加载**
+```javascript
+fetch(`/api/tree/children?parentId=${row.id}`)
+  .then(res => res.json())
+  .then(data => {
+    resolve(data.children || []);
+  })
+  .catch(err => {
+    console.error('加载失败:', err);
+    resolve([]);
+  });
+```
+
+**示例3：根据层级生成数据**
+```javascript
+// 获取当前层级（从元数据中）
+const level = row.__treeLevel__ || 0;
+
+// 根据层级生成不同数量的子节点
+if (level < 3) {
+  const count = 3 - level;
+  const children = Array.from({ length: count }, (_, i) => ({
+    id: `${row.id}-${i + 1}`,
+    name: `层级${level + 1}-节点${i + 1}`,
+    hasChildren: level < 2
+  }));
+  setTimeout(() => resolve(children), 300);
+} else {
+  resolve([]);
+}
+```
+
+#### 树形列配置
+
+树形图标和缩进会自动显示在 `treeColumn` 指定的列中：
+
+```json
+{
+  "treeConfig": {
+    "enableTree": true,
+    "childrenField": "children",
+    "treeColumn": "name",
+    "indent": 20
+  },
+  "columns": [
+    { "prop": "id", "label": "ID", "width": 60 },
+    { "prop": "name", "label": "名称", "width": 200 },
+    { "prop": "status", "label": "状态", "width": 100 }
+  ]
+}
+```
+
+在上面的例子中，树形结构会显示在 "名称" 列中。
+
+#### 展开控制
+
+**默认展开层级：**
+- `defaultExpandAll: true` - 展开所有节点
+- `defaultExpandLevel: 1` - 展开第一层
+- `defaultExpandLevel: 2` - 展开前两层
+- `defaultExpandLevel: 0` - 全部收起
+- `defaultExpandLevel: -1` - 全部展开（同 `defaultExpandAll`）
+
+#### 树形表格与展开行结合使用
+
+两个功能可以同时启用，实现既有层级结构又有详情展示的效果：
+
+```json
+{
+  "treeConfig": {
+    "enableTree": true,
+    "treeColumn": "name"
+  },
+  "expandConfig": {
+    "enableExpand": true,
+    "expandIconColumn": "separate"
+  }
+}
+```
+
+在这种情况下：
+- 树形图标：显示在 `treeColumn` 指定的列中，用于展开/收起子节点
+- 展开图标：显示在单独列或第一列，用于展开/收起详情面板
 
 ### 高级样式配置 (advancedStyle)
 

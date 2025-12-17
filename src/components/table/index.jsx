@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useCallback } from 'react'
 import css from './styles/index.module.css'
 
 // Hooks
-import { useTableConfig, useTableSort, useAutoScroll, useTableEvents, useExpandRow } from './hooks'
+import { useTableConfig, useTableSort, useAutoScroll, useTableEvents, useExpandRow, useTreeData } from './hooks'
 
 // Components
 import { TableHeader, TableBody, EmptyState } from './components'
@@ -55,6 +55,7 @@ export default function Table(props = {}) {
     defaultSort,
     advancedStyle,
     expandConfig,
+    treeConfig,
   } = useTableConfig(configuration)
 
   // 解析表格数据
@@ -134,11 +135,19 @@ export default function Table(props = {}) {
   // 扁平化列配置（用于表体渲染和列宽计算）
   const leafColumns = useMemo(() => flattenColumns(effectiveColumns), [effectiveColumns])
 
-  // 排序逻辑（使用扁平化后的叶子列）
+  // 排序逻辑（先创建，但树形模式下会被 useTreeData 内部处理）
   const { sortState, sortedData, handleSort } = useTableSort(tableData, leafColumns, defaultSort)
 
+  // 树形数据处理（会应用排序状态进行层级内排序）
+  const { flatData: treeData, toggleNodeExpand } = useTreeData(treeConfig, tableData, sortState)
+
+  // 使用树形数据或排序后的数据
+  const finalData = useMemo(() => {
+    return treeConfig?.enabled ? treeData : sortedData
+  }, [treeConfig, treeData, sortedData])
+
   // 展开行状态管理
-  const { expandedRows, toggleRowExpand } = useExpandRow(expandConfig, sortedData)
+  const { expandedRows, toggleRowExpand } = useExpandRow(expandConfig, finalData)
 
   // 自定义事件处理
   const { emitRowClick, emitCellClick, emitSortChange } = useTableEvents(emit, tableData)
@@ -174,7 +183,7 @@ export default function Table(props = {}) {
       speed: scrollConfig.scrollSpeed,
       pauseOnHover: scrollConfig.scrollPauseOnHover,
     },
-    [sortedData]
+    [finalData]
   )
 
   // 同步横向滚动：表体滚动时同步表头
@@ -247,7 +256,7 @@ export default function Table(props = {}) {
         )}
 
         {/* 表体 - 使用扁平化的叶子列 */}
-        {sortedData.length === 0 ? (
+        {finalData.length === 0 ? (
           <EmptyState
             text={tableSettings.emptyText}
             showHeader={tableSettings.showHeader}
@@ -256,7 +265,7 @@ export default function Table(props = {}) {
         ) : (
           <TableBody
             ref={autoScrollRef}
-            data={sortedData}
+            data={finalData}
             columns={leafColumns}
             colWidths={colWidths}
             rowHeight={bodyStyle.rowHeight}
@@ -276,6 +285,8 @@ export default function Table(props = {}) {
             expandConfig={expandConfig}
             expandedRows={expandedRows}
             onToggleExpand={toggleRowExpand}
+            treeConfig={treeConfig}
+            onToggleTreeNode={toggleNodeExpand}
           />
         )}
       </div>

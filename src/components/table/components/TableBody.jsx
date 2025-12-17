@@ -84,6 +84,8 @@ function TableRow({
   expandConfig,
   isExpanded,
   onToggleExpand,
+  treeConfig,
+  onToggleTreeNode,
 }) {
   const isStriped = stripe && rowIndex % 2 === 1
   const isHovered = hoveredRow === rowIndex
@@ -242,6 +244,33 @@ function TableRow({
             }}
           >
             <div className={css.cellContent}>
+              {/* 树形结构：在树形列显示缩进和展开图标 */}
+              {treeConfig?.enabled && column.prop === treeConfig.treeColumn && (
+                <>
+                  {/* 缩进空间 */}
+                  <span style={{ display: 'inline-block', width: `${(row.__treeLevel__ || 0) * treeConfig.indent}px` }} />
+                  {/* 展开/收起图标（仅有子节点时显示） */}
+                  {row.__treeHasChildren__ && (
+                    <span
+                      className={css.treeIcon}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onToggleTreeNode?.(row.__treeNodeId__, row)
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: row.__treeIsLoading__
+                          ? '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></path></svg>'
+                          : row.__treeIsExpanded__
+                          ? treeConfig.treeCollapseIcon
+                          : treeConfig.treeExpandIcon,
+                      }}
+                    />
+                  )}
+                  {/* 叶子节点占位符（保持对齐） */}
+                  {!row.__treeHasChildren__ && <span style={{ display: 'inline-block', width: '16px' }} />}
+                </>
+              )}
+
               {/* 第一列模式：在表格的第一列显示展开图标 */}
               {expandConfig?.enabled && expandConfig.iconColumn === 'first' && colIndex === 0 && (
                 <span
@@ -288,6 +317,8 @@ const TableBody = forwardRef(function TableBody(
     expandConfig,
     expandedRows,
     onToggleExpand,
+    treeConfig,
+    onToggleTreeNode,
   },
   ref
 ) {
@@ -341,6 +372,8 @@ const TableBody = forwardRef(function TableBody(
                   expandConfig={expandConfig}
                   isExpanded={isExpanded}
                   onToggleExpand={onToggleExpand}
+                  treeConfig={treeConfig}
+                  onToggleTreeNode={onToggleTreeNode}
                 />
                 {expandConfig?.enabled && isExpanded && (
                   <ExpandRow

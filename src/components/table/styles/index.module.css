@@ -469,3 +469,19 @@ th[style*="text-align: right"] .cellContent {
 .expandIconInline:hover {
   transform: scale(1.1);
 }
+
+/* 树形图标样式 */
+.treeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.treeIcon:hover {
+  transform: scale(1.1);
+}
+

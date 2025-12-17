@@ -6,7 +6,7 @@
     "show": 1
   },
   "width": 600,
-  "height": 300,
+  "height": 500,
   "configuration": [
     {
       "name": "tableStyle",
@@ -461,7 +461,7 @@
               "name": "columns",
               "displayName": "列定义",
               "type": "jscode",
-              "value": "return [\n  {\n    \"prop\": \"id\",\n    \"label\": \"ID\",\n    \"width\": 60\n  },\n  {\n    \"prop\": \"name\",\n    \"label\": \"姓名\",\n    \"width\": 80\n  },\n  {\n    \"label\": \"地址信息\",\n    \"children\": [\n      {\n        \"prop\": \"province\",\n        \"label\": \"省份\",\n        \"width\": 100\n      },\n      {\n        \"prop\": \"city\",\n        \"label\": \"城市\",\n        \"width\": 100\n      }\n    ]\n  },\n  {\n    \"prop\": \"age\",\n    \"label\": \"年龄\",\n    \"width\": 80,\n    \"align\": \"right\",\n    \"sortable\": true\n  }\n];",
+              "value": "return [\n  {\n    \"prop\": \"name\",\n    \"label\": \"部门/团队\",\n    \"width\": 200,\n    \"align\": \"left\"\n  },\n  {\n    \"prop\": \"manager\",\n    \"label\": \"负责人\",\n    \"width\": 100\n  },\n  {\n    \"prop\": \"employeeCount\",\n    \"label\": \"人数\",\n  \"sortable\": true,\n   \"width\": 80,\n    \"align\": \"center\"\n  },\n  {\n    \"prop\": \"status\",\n    \"label\": \"状态\",\n    \"width\": 80,\n    \"align\": \"center\"\n  }\n];",
               "config": {
                 "placeholder": "return [\n  {\n    \"prop\": \"id\",\n    \"label\": \"ID\",\n    \"width\": 60\n  },\n  {\n    \"prop\": \"name\",\n    \"label\": \"姓名\",\n    \"width\": 80\n  },\n  {\n    \"label\": \"地址信息\",\n    \"children\": [\n      {\n        \"prop\": \"province\",\n        \"label\": \"省份\",\n        \"width\": 100\n      },\n      {\n        \"prop\": \"city\",\n        \"label\": \"城市\",\n        \"width\": 100\n      }\n    ]\n  },\n  {\n    \"prop\": \"age\",\n    \"label\": \"年龄\",\n    \"width\": 80,\n    \"align\": \"right\",\n    \"sortable\": true\n  }\n];"
               },
@@ -543,6 +543,79 @@
           "type": "jscode",
           "language": "javascript",
           "value": "// 参数: row (当前行数据), rowIndex (行索引)\n// 返回: HTML 字符串\nreturn `\n  <div style=\"padding: 20px; background: #f5f5f5;\">\n    <p><strong>详细信息</strong></p>\n    <p>ID: ${row.id}</p>\n    <p>名称: ${row.name}</p>\n  </div>\n`"
+        }
+      ]
+    },
+    {
+      "name": "treeConfig",
+      "displayName": "树形表格",
+      "value": [
+        {
+          "name": "enableTree",
+          "displayName": "启用树形表格",
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "name": "childrenField",
+          "displayName": "子级字段名",
+          "type": "input",
+          "value": "children",
+          "tip": "数据中子级数组的字段名"
+        },
+        {
+          "name": "treeColumn",
+          "displayName": "树形列字段",
+          "type": "input",
+          "value": "name",
+          "tip": "在哪一列显示树形结构（填写字段的prop值）"
+        },
+        {
+          "name": "indent",
+          "displayName": "缩进像素",
+          "type": "number",
+          "value": 20,
+          "tip": "每一层级的缩进大小"
+        },
+        {
+          "name": "defaultExpandAll",
+          "displayName": "默认全部展开",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "name": "defaultExpandLevel",
+          "displayName": "默认展开层级",
+          "type": "number",
+          "value": 1,
+          "tip": "默认展开的层级数，0表示全部收起，-1表示全部展开"
+        },
+        {
+          "name": "treeExpandIcon",
+          "displayName": "展开图标(HTML)",
+          "type": "jscode",
+          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z\"/></svg>"
+        },
+        {
+          "name": "treeCollapseIcon",
+          "displayName": "收起图标(HTML)",
+          "type": "jscode",
+          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z\"/></svg>"
+        },
+        {
+          "name": "lazy",
+          "displayName": "启用懒加载",
+          "type": "boolean",
+          "value": false,
+          "tip": "是否启用树节点懒加载"
+        },
+        {
+          "name": "lazyLoadScript",
+          "displayName": "懒加载函数",
+          "type": "jscode",
+          "language": "javascript",
+          "value": "// 参数: row (当前节点), resolve (回调函数)\n// 异步加载子节点数据后调用 resolve(childrenData)\n// 示例:\n// setTimeout(() => {\n//   const children = [\n//     { id: `${row.id}-1`, name: '子节点1' },\n//     { id: `${row.id}-2`, name: '子节点2' }\n//   ];\n//   resolve(children);\n// }, 1000);",
+          "tip": "懒加载时的数据加载函数"
         }
       ]
     },

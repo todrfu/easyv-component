@@ -61,8 +61,8 @@ export function generateCSSVariables(headerStyle, bodyStyle) {
     "--body-font-weight": bodyStyle.fontWeight,
     "--body-font-style": bodyStyle.fontStyle,
     "--row-height": `${bodyStyle.rowHeight}px`,
+    "--row-gap": `${bodyStyle.rowGap || 0}px`,
     "--stripe-bg": bodyStyle.stripeBgColor,
-    "--border-color": bodyStyle.borderColor,
     "--hover-bg": bodyStyle.hoverBgColor,
     "--current-row-bg": bodyStyle.currentRowBgColor,
   };
@@ -273,11 +273,18 @@ export function convertToHeaderRows(columns) {
   const maxDepth = getHeaderRowCount(columns);
   const rows = Array.from({ length: maxDepth }, () => []);
 
+  // 使用闭包维护全局叶子列索引计数器
+  let leafIndex = 0;
+
   const processColumns = (cols, depth, parentFixed) => {
     cols.forEach((col) => {
       const fixed = col.fixed || parentFixed;
       const colSpan = getColSpan(col);
       const rowSpan = getRowSpan(col, depth, maxDepth);
+      const isLeaf = !col.children || col.children.length === 0;
+
+      // 记录当前单元格的叶子列起始索引
+      const currentLeafIndex = leafIndex;
 
       // 创建表头单元格配置
       const headerCell = {
@@ -285,7 +292,8 @@ export function convertToHeaderRows(columns) {
         fixed,
         colSpan,
         rowSpan,
-        isLeaf: !col.children || col.children.length === 0,
+        isLeaf,
+        leafColumnIndex: currentLeafIndex, // 全局叶子列索引
       };
 
       rows[depth - 1].push(headerCell);
@@ -293,6 +301,9 @@ export function convertToHeaderRows(columns) {
       // 递归处理子列
       if (col.children && col.children.length > 0) {
         processColumns(col.children, depth + 1, fixed);
+      } else {
+        // 叶子节点，递增全局叶子列索引
+        leafIndex++;
       }
     });
   };

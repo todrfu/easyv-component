@@ -69,6 +69,8 @@ export function useTableConfig(configuration) {
   const headerStyleConfig = config.headerStyle || {}
   const rowStyleConfig = config.rowStyle || {}
   const scrollConfigGroup = tableStyle.scrollConfig || {}
+  const borderConfig = tableStyle.border || {}
+  const headerBorderConfig = headerStyleConfig.border || {}
   const columnStyleConfig = config.columnStyle || {}
   const columnConfig = columnStyleConfig.columnConfig || {}
   const indexColumnConfig = columnStyleConfig.indexColumn || {}
@@ -78,18 +80,23 @@ export function useTableConfig(configuration) {
   const tableSettings = useMemo(
     () => ({
       stripe: parseBool(tableStyle.stripe, false),
-      border: parseBool(tableStyle.border, true),
+      showBorder: parseBool(borderConfig.show, true),
+      borderColor: parseColor(borderConfig.borderColor, '#2a2a4a'),
+      borderWidth: Number(borderConfig.borderWidth) || 1,
+      borderDirection: borderConfig.borderDirection || 'horizontal',
       showHeader: parseBool(tableStyle.showHeader, true),
       highlightCurrentRow: parseBool(tableStyle.highlightCurrentRow, false),
       emptyText: tableStyle.emptyText || '暂无数据',
+      borderRadius: Number(tableStyle.borderRadius) || 0,
+      containerBgColor: parseColor(tableStyle.containerBgColor, '#041F42'),
     }),
-    [tableStyle.stripe, tableStyle.border, tableStyle.showHeader, tableStyle.highlightCurrentRow, tableStyle.emptyText]
+    [tableStyle.stripe, borderConfig.show, borderConfig.borderColor, borderConfig.borderWidth, borderConfig.borderDirection, tableStyle.showHeader, tableStyle.highlightCurrentRow, tableStyle.emptyText, tableStyle.borderRadius, tableStyle.containerBgColor]
   )
 
   // 序号列配置
   const indexColumn = useMemo(
     () => ({
-      show: parseBool(indexColumnConfig.showIndex, false),
+      show: parseBool(indexColumnConfig.show, true),
       label: indexColumnConfig.indexLabel || '序号',
       start: Number(indexColumnConfig.indexStart) || 1,
       width: Number(indexColumnConfig.indexWidth) || 60,
@@ -111,14 +118,23 @@ export function useTableConfig(configuration) {
       color: parseColor(textStyle.color, '#ffffff'),
       fontWeight: parseBool(textStyle.bold, false) ? 'bold' : textStyle.fontWeight || 'normal',
       fontStyle: parseBool(textStyle.italic, false) ? 'italic' : 'normal',
+      // 表头边框配置
+      border: {
+        enabled: parseBool(headerBorderConfig.show, false), // 是否启用独立边框配置
+        showBorder: true, // 启用独立配置时默认显示边框
+        borderColor: parseColor(headerBorderConfig.borderColor, '#2a2a4a'),
+        borderWidth: Number(headerBorderConfig.borderWidth) || 1,
+        borderDirection: headerBorderConfig.borderDirection || 'all',
+      },
     }
-  }, [headerStyleConfig])
+  }, [headerStyleConfig, headerBorderConfig])
 
   // 表体样式配置
   const bodyStyle = useMemo(() => {
     const textStyle = rowStyleConfig.bodyTextStyle || {}
     return {
       rowHeight: Number(rowStyleConfig.rowHeight) || 40,
+      rowGap: Number(rowStyleConfig.rowGap) || 0,
       bgColor: parseColor(rowStyleConfig.bodyBgColor, '#16213e'),
       fontFamily: textStyle.fontFamily || 'Microsoft Yahei',
       fontSize: Number(textStyle.fontSize) || 13,
@@ -126,7 +142,6 @@ export function useTableConfig(configuration) {
       fontWeight: parseBool(textStyle.bold, false) ? 'bold' : textStyle.fontWeight || 'normal',
       fontStyle: parseBool(textStyle.italic, false) ? 'italic' : 'normal',
       stripeBgColor: parseColor(rowStyleConfig.stripeBgColor, '#1a1a2e'),
-      borderColor: parseColor(rowStyleConfig.borderColor, '#2a2a4a'),
       hoverBgColor: parseColor(rowStyleConfig.hoverBgColor, '#2a3f5f'),
       currentRowBgColor: parseColor(rowStyleConfig.currentRowBgColor, '#304d6d'),
     }
@@ -142,20 +157,19 @@ export function useTableConfig(configuration) {
     [scrollConfigGroup.autoScroll, scrollConfigGroup.scrollSpeed, scrollConfigGroup.scrollPauseOnHover]
   )
 
-  // 列配置 - 从 JSON 字符串解析
-  const columns = useMemo(() => {
-    const columnsStr = columnConfig.columns
-    if (!columnsStr) return []
-    if (Array.isArray(columnsStr)) return columnsStr
-    if (typeof columnsStr === 'string') {
-      try {
-        const parsed = JSON.parse(columnsStr)
-        return Array.isArray(parsed) ? parsed : []
-      } catch {
-        return []
-      }
+  // 列配置脚本函数
+  const columnScriptFn = useMemo(() => {
+    const columnsScript = columnConfig.columns
+    if (!columnsScript || typeof columnsScript !== 'string') {
+      return null
     }
-    return []
+    try {
+      // 用户只编写函数体，我们包装成完整函数
+      return new Function('data', columnsScript)
+    } catch (e) {
+      console.error('列定义脚本解析错误:', e)
+      return null
+    }
   }, [columnConfig.columns])
 
   // 默认排序配置
@@ -182,21 +196,24 @@ export function useTableConfig(configuration) {
     }
 
     // 提取嵌套分组配置
+    const headerConfig = advancedStyleConfig.header || {}
     const headerCellConfig = advancedStyleConfig.headerCell || {}
     const cellConfig = advancedStyleConfig.cell || {}
     const rowStyleConfig = advancedStyleConfig.rowStyle || {}
 
     return {
-      // 表头单元格样式函数: (column, columnIndex) => styleObject
-      headerCellStyleFn: createScriptFn(headerCellConfig.headerCellStyle, ['column', 'columnIndex']),
-      // 表头单元格渲染函数: (column, columnIndex) => renderConfig
-      headerCellRenderFn: createScriptFn(headerCellConfig.headerCellRender, ['column', 'columnIndex']),
+      // 表头整体样式函数: () => styleObject
+      headerStyleFn: createScriptFn(headerConfig.headerStyle, []),
+      // 表头单元格样式函数: (column, columnIndex, leafColumnIndex) => styleObject
+      headerCellStyleFn: createScriptFn(headerCellConfig.headerCellStyle, ['column', 'columnIndex', 'leafColumnIndex']),
+      // 表头单元格渲染函数: (column, columnIndex, leafColumnIndex) => renderConfig
+      headerCellRenderFn: createScriptFn(headerCellConfig.headerCellRender, ['column', 'columnIndex', 'leafColumnIndex']),
       // 行样式函数: (row, rowIndex) => styleObject
       rowStyleFn: createScriptFn(rowStyleConfig.rowStyle, ['row', 'rowIndex']),
-      // 单元格样式函数: (row, column, rowIndex, columnIndex) => styleObject
-      cellStyleFn: createScriptFn(cellConfig.cellStyle, ['row', 'column', 'rowIndex', 'columnIndex']),
-      // 单元格渲染函数: (row, column, rowIndex, columnIndex, value) => renderConfig
-      cellRenderFn: createScriptFn(cellConfig.cellRender, ['row', 'column', 'rowIndex', 'columnIndex', 'value']),
+      // 单元格样式函数: (row, column, rowIndex, columnIndex, leafColumnIndex) => styleObject
+      cellStyleFn: createScriptFn(cellConfig.cellStyle, ['row', 'column', 'rowIndex', 'columnIndex', 'leafColumnIndex']),
+      // 单元格渲染函数: (row, column, rowIndex, columnIndex, leafColumnIndex, value) => renderConfig
+      cellRenderFn: createScriptFn(cellConfig.cellRender, ['row', 'column', 'rowIndex', 'columnIndex', 'leafColumnIndex', 'value']),
     }
   }, [advancedStyleConfig])
 
@@ -205,7 +222,7 @@ export function useTableConfig(configuration) {
     headerStyle,
     bodyStyle,
     scrollConfig,
-    columns,
+    columnScriptFn,
     indexColumn,
     defaultSort,
     advancedStyle,

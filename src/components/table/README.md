@@ -65,7 +65,7 @@ table/
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |--------|------|--------|------|
-| showIndex | boolean | false | 显示序号列 |
+| show | boolean | true | 显示序号列 |
 | indexLabel | string | "序号" | 序号列标题 |
 | indexStart | number | 1 | 起始值 |
 | indexWidth | number | 60 | 列宽 |
@@ -148,6 +148,8 @@ table/
 
 ```
 advancedStyle/
+├── header/               # 表头整体
+│   └── headerStyle       # 样式脚本
 ├── headerCell/           # 表头单元格
 │   ├── headerCellStyle   # 样式脚本
 │   └── headerCellRender  # 渲染脚本
@@ -158,11 +160,26 @@ advancedStyle/
     └── rowStyle          # 样式脚本
 ```
 
+#### headerStyle - 表头整体样式
+
+无可用变量，直接返回样式对象。适用于设置表头背景叠加效果（如条纹图案）。
+
+```javascript
+// 示例：添加条纹背景叠加（默认值）
+return {
+  background: `
+    repeating-linear-gradient(135deg, rgba(127,170,212,0.078), rgba(127,170,212,0.078) 1px, transparent 1px, transparent 8px),
+    var(--header-bg)
+  `
+};
+```
+
 #### headerCellStyle - 表头单元格样式
 
 可用变量：
 - `column` - 列配置对象
-- `columnIndex` - 列索引
+- `columnIndex` - 行内列索引
+- `leafColumnIndex` - 全局叶子列索引
 
 ```javascript
 // 示例：特定列设置不同颜色
@@ -176,7 +193,8 @@ return {};
 
 可用变量：
 - `column` - 列配置对象
-- `columnIndex` - 列索引
+- `columnIndex` - 行内列索引
+- `leafColumnIndex` - 全局叶子列索引
 
 返回渲染配置对象，支持 `prefix`（前缀）、`suffix`（后缀）、`content`（内容替换）、`hideText`（隐藏原文字）。
 
@@ -196,8 +214,8 @@ return {};
 - `bottomRight` - 右下角
 
 ```javascript
-// 示例：第一列左上角添加红色三角形（使用 SVG）
-if (columnIndex === 0) {
+// 示例：全局第一个叶子列左上角添加红色三角形（使用 SVG）
+if (leafColumnIndex === 0) {
   return {
     prefix: {
       type: 'html',
@@ -232,7 +250,8 @@ return {};
 - `row` - 行数据对象
 - `column` - 列配置对象
 - `rowIndex` - 行索引
-- `columnIndex` - 列索引
+- `columnIndex` - 行内列索引
+- `leafColumnIndex` - 全局叶子列索引
 
 ```javascript
 // 示例：年龄大于30的显示红色
@@ -252,7 +271,8 @@ return {};
 - `row` - 行数据对象
 - `column` - 列配置对象
 - `rowIndex` - 行索引
-- `columnIndex` - 列索引
+- `columnIndex` - 行内列索引
+- `leafColumnIndex` - 全局叶子列索引
 - `value` - 单元格原始值
 
 返回渲染配置对象，支持 `prefix`（前缀）、`suffix`（后缀）、`content`（内容替换）、`hideText`（隐藏原文字）。

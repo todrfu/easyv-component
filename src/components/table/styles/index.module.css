@@ -8,13 +8,42 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--body-bg, #16213e);
-  border-radius: 4px;
+  background: var(--container-bg, #041F42);
+  border-radius: var(--border-radius, 0);
   overflow: hidden;
 }
 
 .tableWrapper.bordered {
-  border: 1px solid var(--border-color, #2a2a4a);
+  border: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+}
+
+/* 关闭所有边框 */
+.tableWrapper.noBorder {
+  border: none !important;
+}
+
+/* 全局边框关闭时，仅移除表体边框，表头边框由表头独立配置控制 */
+.tableWrapper.noBorder .bodyCell {
+  border: none !important;
+}
+
+/* 边框方向控制 */
+.tableWrapper.borderHorizontal .headerCell,
+.tableWrapper.borderHorizontal .bodyCell {
+  border-right: none !important;
+  border-bottom: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+}
+
+.tableWrapper.borderVertical .headerCell,
+.tableWrapper.borderVertical .bodyCell {
+  border-bottom: none !important;
+  border-right: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+}
+
+.tableWrapper.borderAll .headerCell,
+.tableWrapper.borderAll .bodyCell {
+  border-right: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+  border-bottom: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
 }
 
 /* 表格滚动容器 - 支持横向滚动 */
@@ -53,12 +82,38 @@
   overflow: hidden;
 }
 
+/* 表头独立边框控制 */
+.headerNoBorder .headerCell {
+  border: none !important;
+}
+
+.headerBorderHorizontal .headerCell {
+  border-right: none !important;
+  border-bottom: var(--header-border-width, var(--border-width, 1px)) solid var(--header-border-color, var(--border-color, #2a2a4a)) !important;
+}
+
+.headerBorderVertical .headerCell {
+  border-bottom: none !important;
+  border-right: var(--header-border-width, var(--border-width, 1px)) solid var(--header-border-color, var(--border-color, #2a2a4a)) !important;
+}
+
+.headerBorderAll .headerCell {
+  border-right: var(--header-border-width, var(--border-width, 1px)) solid var(--header-border-color, var(--border-color, #2a2a4a)) !important;
+  border-bottom: var(--header-border-width, var(--border-width, 1px)) solid var(--header-border-color, var(--border-color, #2a2a4a)) !important;
+}
+
 /* 原生表格样式 */
 .table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
+}
+
+/* 表体表格支持行间距 */
+.tableBody .table {
+  border-collapse: separate;
+  border-spacing: 0 var(--row-gap, 0);
 }
 
 .headerRow {
@@ -73,8 +128,8 @@
   font-weight: var(--header-font-weight, bold);
   font-style: var(--header-font-style, normal);
   box-sizing: border-box;
-  border-right: 1px solid var(--border-color, #2a2a4a);
-  border-bottom: 1px solid var(--border-color, #2a2a4a);
+  border-right: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+  border-bottom: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
   user-select: none;
   transition: background-color 0.2s ease;
   vertical-align: middle;
@@ -148,6 +203,8 @@
   overflow: auto;
   /* 使用 overlay 滚动条避免布局跳动 */
   scrollbar-gutter: stable;
+  /* 设置容器背景色，行间距会显示此背景 */
+  background: var(--container-bg, #041F42);
 }
 
 /* 自定义滚动条 - Webkit (Chrome, Safari, Edge) */
@@ -179,6 +236,7 @@
 /* 表体行 */
 .bodyRow {
   transition: background-color 0.2s ease;
+  background: var(--body-bg, #16213e);
 }
 
 .bodyRow.striped {
@@ -208,10 +266,11 @@
   font-weight: var(--body-font-weight, normal);
   font-style: var(--body-font-style, normal);
   box-sizing: border-box;
-  border-right: 1px solid var(--border-color, #2a2a4a);
-  border-bottom: 1px solid var(--border-color, #2a2a4a);
+  border-right: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
+  border-bottom: var(--border-width, 1px) solid var(--border-color, #2a2a4a);
   word-break: break-word;
   vertical-align: middle;
+  background: transparent;
 }
 
 /* 最后一列移除右边框 */
@@ -339,7 +398,9 @@ th[style*="text-align: right"] .cellContent {
 .positionedElement {
   position: absolute;
   z-index: 1;
-  line-height: 1;
+  display: flex;
+  line-height: 0;
+  font-size: 0;
 }
 
 /* 单元格相对定位容器 */

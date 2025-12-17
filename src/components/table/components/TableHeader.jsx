@@ -83,7 +83,7 @@ function HeaderContent({ column }) {
 /**
  * 表头单元格组件
  */
-function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedInfo, leafStartIndex, headerCellStyleFn, headerCellRenderFn, columnIndex }) {
+function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedInfo, leafStartIndex, headerCellStyleFn, headerCellRenderFn, columnIndex, leafColumnIndex }) {
   // 计算该单元格对应的叶子列索引范围（用于固定列样式）
   const getLeafColumnIndex = () => {
     if (column.isLeaf) {
@@ -125,7 +125,7 @@ function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedIn
   const getCustomStyle = () => {
     if (!headerCellStyleFn) return {}
     try {
-      const result = headerCellStyleFn(column, columnIndex)
+      const result = headerCellStyleFn(column, columnIndex, leafColumnIndex)
       return result && typeof result === 'object' ? result : {}
     } catch (e) {
       console.error('表头单元格样式脚本执行错误:', e)
@@ -137,7 +137,7 @@ function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedIn
   const getRenderConfig = () => {
     if (!headerCellRenderFn) return null
     try {
-      const result = headerCellRenderFn(column, columnIndex)
+      const result = headerCellRenderFn(column, columnIndex, leafColumnIndex)
       return result && typeof result === 'object' ? result : null
     } catch (e) {
       console.error('表头单元格渲染脚本执行错误:', e)
@@ -181,7 +181,7 @@ function HeaderCell({ column, rowHeight, sortState, onSort, leafColumns, fixedIn
  * 支持横向滚动同步、列固定和多级表头
  */
 const TableHeader = forwardRef(function TableHeader(
-  { columns, colWidths, headerHeight, sortState, onSort, minWidth, fixedInfo, headerCellStyleFn, headerCellRenderFn },
+  { columns, colWidths, headerHeight, sortState, onSort, minWidth, fixedInfo, headerStyleFn, headerCellStyleFn, headerCellRenderFn, globalBorder, headerBorder },
   ref
 ) {
   // 计算叶子列（用于 colgroup）
@@ -196,17 +196,56 @@ const TableHeader = forwardRef(function TableHeader(
   // 计算每行的高度
   const rowHeight = headerHeight / rowCount
 
-  // 计算每个单元格在叶子列中的起始索引
-  const getLeafStartIndex = (rowIndex, cellIndex) => {
-    let index = 0
-    for (let i = 0; i < cellIndex; i++) {
-      index += headerRows[rowIndex][i].colSpan
+  // 决定使用哪个边框配置
+  const effectiveBorder = useMemo(() => {
+    if (headerBorder && headerBorder.enabled) {
+      return headerBorder
     }
-    return index
+    return globalBorder
+  }, [headerBorder, globalBorder])
+
+  // 生成边框相关的 CSS 变量
+  const borderVars = useMemo(() => {
+    if (!effectiveBorder || !effectiveBorder.showBorder) {
+      return {}
+    }
+    return {
+      '--header-border-color': effectiveBorder.borderColor,
+      '--header-border-width': `${effectiveBorder.borderWidth}px`,
+    }
+  }, [effectiveBorder])
+
+  // 生成边框方向 className
+  const borderDirectionClass = useMemo(() => {
+    // 如果没有有效的边框配置或边框已关闭，返回 noBorder
+    if (!effectiveBorder || effectiveBorder.showBorder === false) {
+      return css.headerNoBorder
+    }
+    const direction = effectiveBorder.borderDirection || 'all'
+    const capitalizedDirection = direction.charAt(0).toUpperCase() + direction.slice(1)
+    return css[`headerBorder${capitalizedDirection}`] || ''
+  }, [effectiveBorder])
+
+  // 计算表头整体自定义样式
+  const getHeaderCustomStyle = () => {
+    if (!headerStyleFn) return {}
+    try {
+      const result = headerStyleFn()
+      return result && typeof result === 'object' ? result : {}
+    } catch (e) {
+      console.error('表头整体样式脚本执行错误:', e)
+      return {}
+    }
   }
 
+  const headerCustomStyle = getHeaderCustomStyle()
+
   return (
-    <div ref={ref} className={css.tableHeader}>
+    <div
+      ref={ref}
+      className={`${css.tableHeader} ${borderDirectionClass}`}
+      style={{ ...headerCustomStyle, ...borderVars }}
+    >
       <table className={css.table} style={{ minWidth }}>
         <ColGroup leafColumns={leafColumns} colWidths={colWidths} />
         <thead>
@@ -221,10 +260,11 @@ const TableHeader = forwardRef(function TableHeader(
                   onSort={onSort}
                   leafColumns={leafColumns}
                   fixedInfo={fixedInfo}
-                  leafStartIndex={getLeafStartIndex(rowIndex, cellIndex)}
+                  leafStartIndex={column.leafColumnIndex}
                   headerCellStyleFn={headerCellStyleFn}
                   headerCellRenderFn={headerCellRenderFn}
-                  columnIndex={getLeafStartIndex(rowIndex, cellIndex)}
+                  columnIndex={cellIndex}
+                  leafColumnIndex={column.leafColumnIndex}
                 />
               ))}
             </tr>

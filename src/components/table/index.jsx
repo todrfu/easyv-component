@@ -50,7 +50,7 @@ export default function Table(props = {}) {
     headerStyle,
     bodyStyle,
     scrollConfig,
-    columns: configColumns,
+    columnScriptFn,
     indexColumn,
     defaultSort,
     advancedStyle,
@@ -62,6 +62,21 @@ export default function Table(props = {}) {
     if (Array.isArray(data)) return data
     return []
   }, [data])
+
+  // 通过脚本生成列配置
+  const configColumns = useMemo(() => {
+    if (!columnScriptFn) {
+      // 如果没有脚本函数，返回空数组，后续会从数据自动生成
+      return []
+    }
+    try {
+      const result = columnScriptFn(tableData)
+      return Array.isArray(result) ? result : []
+    } catch (e) {
+      console.error('列定义脚本执行错误:', e)
+      return []
+    }
+  }, [columnScriptFn, tableData])
 
   // 生成序号列配置（仅在 show 为 true 时生成）
   const indexColumnConfig = useMemo(() => {
@@ -164,11 +179,20 @@ export default function Table(props = {}) {
   }
 
   // CSS 变量
-  const cssVars = generateCSSVariables(headerStyle, bodyStyle)
+  const cssVars = {
+    ...generateCSSVariables(headerStyle, bodyStyle),
+    '--border-radius': `${tableSettings.borderRadius}px`,
+    '--container-bg': tableSettings.containerBgColor,
+    '--border-color': tableSettings.borderColor,
+    '--border-width': `${tableSettings.borderWidth}px`,
+  }
 
   return (
     <div className="__easyv-component" style={containerStyles} id={id}>
-      <div className={`${css.tableWrapper} ${tableSettings.border ? css.bordered : ''}`} style={cssVars}>
+      <div
+        className={`${css.tableWrapper} ${!tableSettings.showBorder ? css.noBorder : css.bordered} ${tableSettings.showBorder ? css[`border${tableSettings.borderDirection.charAt(0).toUpperCase() + tableSettings.borderDirection.slice(1)}`] || '' : ''}`}
+        style={cssVars}
+      >
         {/* 表头 - 使用原始嵌套列配置 */}
         {tableSettings.showHeader && (
           <TableHeader
@@ -180,8 +204,16 @@ export default function Table(props = {}) {
             onSort={handleSortWithEvent}
             minWidth={tableMinWidth}
             fixedInfo={fixedInfo}
+            headerStyleFn={advancedStyle.headerStyleFn}
             headerCellStyleFn={advancedStyle.headerCellStyleFn}
             headerCellRenderFn={advancedStyle.headerCellRenderFn}
+            globalBorder={{
+              showBorder: tableSettings.showBorder,
+              borderColor: tableSettings.borderColor,
+              borderWidth: tableSettings.borderWidth,
+              borderDirection: tableSettings.borderDirection,
+            }}
+            headerBorder={headerStyle.border}
           />
         )}
 

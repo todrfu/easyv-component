@@ -127,7 +127,8 @@ function TableRow({
   const getCellCustomStyle = (column, colIndex) => {
     if (!cellStyleFn) return {}
     try {
-      const result = cellStyleFn(row, column, rowIndex, colIndex)
+      // colIndex 在表体中既是行内索引也是叶子列索引（因为表体使用扁平化列）
+      const result = cellStyleFn(row, column, rowIndex, colIndex, colIndex)
       return result && typeof result === 'object' ? result : {}
     } catch (e) {
       console.error('单元格样式脚本执行错误:', e)
@@ -139,7 +140,8 @@ function TableRow({
   const getCellRenderConfig = (column, colIndex, value) => {
     if (!cellRenderFn) return null
     try {
-      const result = cellRenderFn(row, column, rowIndex, colIndex, value)
+      // colIndex 在表体中既是行内索引也是叶子列索引（因为表体使用扁平化列）
+      const result = cellRenderFn(row, column, rowIndex, colIndex, colIndex, value)
       return result && typeof result === 'object' ? result : null
     } catch (e) {
       console.error('单元格渲染脚本执行错误:', e)

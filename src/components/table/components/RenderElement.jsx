@@ -35,7 +35,7 @@ function ImageElement({ src, width, height, style = {} }) {
  */
 function TextElement({ content, style = {} }) {
   if (!content) return null
-  return <span style={style}>{content}</span>
+  return <span style={{ display: 'contents', ...style }}>{content}</span>
 }
 
 /**
@@ -46,7 +46,7 @@ function TextElement({ content, style = {} }) {
  */
 function HtmlElement({ content, style = {} }) {
   if (!content) return null
-  return <span style={style} dangerouslySetInnerHTML={{ __html: content }} />
+  return <span style={{ display: 'contents', ...style }} dangerouslySetInnerHTML={{ __html: content }} />
 }
 
 /**

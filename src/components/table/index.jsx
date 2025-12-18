@@ -50,13 +50,14 @@ export default function Table(props = {}) {
     headerStyle,
     bodyStyle,
     scrollConfig,
+    scrollbarColor,
     columnScriptFn,
     indexColumn,
     defaultSort,
     advancedStyle,
     expandConfig,
     treeConfig,
-  } = useTableConfig(configuration)
+  } = useTableConfig(configuration.config)
 
   // 解析表格数据
   const tableData = useMemo(() => {
@@ -216,6 +217,26 @@ export default function Table(props = {}) {
     fontFamily: 'Arial, sans-serif',
   }
 
+  // 将十六进制颜色转换为 rgba 格式（用于悬停效果）
+  const addOpacityToColor = (color) => {
+    // 如果颜色已经包含透明度（rgba 或 hsla），直接返回
+    if (color.startsWith('rgba') || color.startsWith('hsla')) {
+      return color
+    }
+
+    // 如果是 hex 格式，提取 RGB 并添加透明度
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color)
+    if (result) {
+      const r = parseInt(result[1], 16)
+      const g = parseInt(result[2], 16)
+      const b = parseInt(result[3], 16)
+      return `rgba(${r}, ${g}, ${b}, 0.8)`
+    }
+
+    // 其他格式直接返回
+    return color
+  }
+
   // CSS 变量
   const cssVars = {
     ...generateCSSVariables(headerStyle, bodyStyle),
@@ -223,6 +244,9 @@ export default function Table(props = {}) {
     '--container-bg': tableSettings.containerBgColor,
     '--border-color': tableSettings.borderColor,
     '--border-width': `${tableSettings.borderWidth}px`,
+    // 滚动条样式
+    '--scrollbar-thumb-color': scrollbarColor,
+    '--scrollbar-thumb-hover-color': addOpacityToColor(scrollbarColor),
   }
 
   return (

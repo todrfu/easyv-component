@@ -9,7 +9,7 @@
 - ✅ 列排序（支持自定义排序脚本）
 - ✅ 序号列（可配置起始值、对齐方式、固定）
 - ✅ 展开行（支持自定义HTML内容）
-- ✅ 树形表格（支持层级数据、懒加载）
+- ✅ 树形表格
 - ✅ 斑马纹
 - ✅ 行高亮（hover、点击高亮）
 - ✅ 自定义事件（行点击、单元格点击）
@@ -141,33 +141,19 @@ table/
 | scrollSpeed | number | 50 | 滚动速度（ms） |
 | scrollPauseOnHover | boolean | true | 悬停暂停 |
 
-### 滚动条样式配置 (scrollbarStyle)
+### 滚动条样式配置 (scrollbarColor)
 
-自定义表格滚动条的轨道和滑块样式。
-
-#### 轨道配置 (track)
+自定义表格滚动条滑块的颜色（包含透明度）。
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |--------|------|--------|------|
-| trackWidth | number | 2 | 轨道粗细（px） |
-| trackColor | color | #E6F7FF | 轨道颜色 |
-| trackOpacity | number | 20 | 轨道透明度（0-100） |
-| trackRadius | number | 0 | 轨道圆角（px） |
-
-#### 滑块配置 (thumb)
-
-| 配置项 | 类型 | 默认值 | 说明 |
-|--------|------|--------|------|
-| thumbWidth | number | 2 | 滑块粗细（px） |
-| thumbColor | color | #E6F7FF | 滑块颜色 |
-| thumbOpacity | number | 45 | 滑块透明度（0-100） |
-| thumbRadius | number | 0 | 滑块圆角（px） |
+| scrollbarColor | color | #E6F7FF | 滑块颜色（颜色选择器包含透明度设置） |
 
 **注意事项：**
-- 滚动条样式仅对 Webkit 内核浏览器（Chrome、Safari、Edge）完全生效
-- Firefox 支持基本的颜色和宽度设置，但圆角等高级样式可能不生效
-- 透明度值范围为 0-100，会自动转换为 CSS 的 0-1 范围
-- 悬停时滑块透明度会自动增加 20%
+- 滚动条样式对 Webkit 内核浏览器（Chrome、Safari、Edge）和 Firefox 完全生效
+- 颜色选择器右侧的百分比控制透明度
+- 鼠标悬停时会自动调整为 80% 透明度
+- 滚动条宽度固定为 6px，圆角固定为 3px
 
 ### 展开行配置 (expandConfig)
 

@@ -4,7 +4,7 @@ EasyV 数据可视化平台自定义组件开发项目。
 
 ## 环境要求
 
-- Node.js >= 12.13.0 < 17.0.0
+- Node >= 14
 
 ## 快速开始
 
@@ -65,3 +65,5 @@ component-name/
 
 - `main.json`: 定义组件的配置项，包括基础信息、配置面板、触发器等
 - `main.data.json`: 定义组件的示例数据和字段类型
+
+[组件开发文档](https://easyv.cloud/help/docs/ln5eiyoxxmlzklam.html)

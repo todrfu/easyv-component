@@ -211,7 +211,6 @@
 .tableBody::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-  background: transparent;
 }
 
 .tableBody::-webkit-scrollbar-track {
@@ -219,18 +218,18 @@
 }
 
 .tableBody::-webkit-scrollbar-thumb {
-  background: var(--border-color, #2a2a4a);
+  background: var(--scrollbar-thumb-color);
   border-radius: 3px;
 }
 
 .tableBody::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--scrollbar-thumb-hover-color);
 }
 
 /* 自定义滚动条 - Firefox */
 .tableBody {
   scrollbar-width: thin;
-  scrollbar-color: var(--border-color, #2a2a4a) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
 }
 
 /* 表体行 */

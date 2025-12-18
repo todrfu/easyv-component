@@ -6,95 +6,51 @@
     "show": 1
   },
   "width": 600,
-  "height": 500,
+  "height": 300,
   "configuration": [
     {
-      "name": "tableStyle",
-      "displayName": "全局",
-      "config": {
-        "layout": "horizontal"
-      },
+      "name": "config",
+      "displayName": "表格配置",
       "value": [
         {
-          "name": "stripe",
-          "displayName": "斑马纹",
-          "type": "boolean",
-          "value": true
-        },
-        {
-          "name": "showHeader",
-          "displayName": "显示表头",
-          "type": "boolean",
-          "value": true
-        },
-        {
-          "name": "highlightCurrentRow",
-          "displayName": "高亮当前行",
-          "tip": "点击行时高亮",
-          "type": "boolean",
-          "value": false
-        },
-        {
-          "name": "containerBgColor",
-          "displayName": "背景色",
-          "type": "multicolor",
-          "value": {
-            "type": "pure",
-            "pure": "#001d45",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#001d45"
-                },
-                {
-                  "offset": 100,
-                  "color": "#001d45"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        },
-        {
-          "name": "borderRadius",
-          "displayName": "圆角",
-          "type": "number",
-          "value": 0
-        },
-        {
-          "name": "emptyText",
-          "displayName": "空数据提示",
-          "type": "input",
-          "value": "暂无数据"
-        },
-        {
-          "name": "border",
-          "displayName": "边框",
+          "name": "tableStyle",
+          "displayName": "全局",
           "value": [
             {
-              "name": "show",
-              "displayName": "显示",
+              "name": "stripe",
+              "displayName": "斑马纹",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "name": "showHeader",
+              "displayName": "显示表头",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "name": "highlightCurrentRow",
+              "displayName": "高亮当前行",
+              "tip": "点击行时高亮",
               "type": "boolean",
               "value": false
             },
             {
-              "name": "borderColor",
-              "displayName": "颜色",
+              "name": "containerBgColor",
+              "displayName": "背景色",
               "type": "multicolor",
               "value": {
                 "type": "pure",
-                "pure": "#3B3B84",
+                "pure": "#001d45",
                 "linear": {
                   "stops": [
                     {
                       "offset": 0,
-                      "color": "#3B3B84"
+                      "color": "#001d45"
                     },
                     {
                       "offset": 100,
-                      "color": "#3B3B84"
+                      "color": "#001d45"
                     }
                   ],
                   "angle": 0,
@@ -103,607 +59,660 @@
               }
             },
             {
-              "name": "borderWidth",
-              "displayName": "宽度",
+              "name": "borderRadius",
+              "displayName": "圆角",
               "type": "number",
-              "value": 1
+              "value": 0
             },
             {
-              "name": "borderDirection",
-              "displayName": "方向",
-              "type": "select",
-              "value": "all",
-              "config": {
-                "options": [
-                  {
-                    "name": "横向",
-                    "value": "horizontal"
-                  },
-                  {
-                    "name": "竖向",
-                    "value": "vertical"
-                  },
-                  {
-                    "name": "全部",
-                    "value": "all"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "scrollConfig",
-          "displayName": "滚动配置",
-          "value": [
-            {
-              "name": "autoScroll",
-              "displayName": "自动滚动",
-              "type": "boolean",
-              "value": false
-            },
-            {
-              "name": "scrollSpeed",
-              "displayName": "滚动速度(ms)",
-              "type": "number",
-              "value": 50
-            },
-            {
-              "name": "scrollPauseOnHover",
-              "displayName": "悬停暂停",
-              "type": "boolean",
-              "value": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "headerStyle",
-      "displayName": "表头",
-      "value": [
-        {
-          "name": "headerHeight",
-          "displayName": "高度",
-          "type": "number",
-          "value": 40
-        },
-        {
-          "name": "headerBgColor",
-          "displayName": "背景色",
-          "type": "multicolor",
-          "value": {
-            "type": "linear",
-            "pure": "#1a1a2e",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#234090"
-                },
-                {
-                  "offset": 100,
-                  "color": "#0e1629"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        },
-        {
-          "name": "headerTextStyle",
-          "displayName": "文字",
-          "type": "textStyle",
-          "value": {
-            "fontFamily": "Microsoft Yahei",
-            "fontSize": 12,
-            "color": "#ffffff",
-            "bold": false,
-            "italic": true
-          }
-        },
-        {
-          "name": "border",
-          "displayName": "边框",
-          "value": [
-            {
-              "name": "show",
-              "displayName": "启用独立配置",
-              "tip": "开启后表头边框受本配置控制,关闭则受全局边框配置控制",
-              "type": "boolean",
-              "value": false
-            },
-            {
-              "name": "borderColor",
-              "displayName": "颜色",
-              "type": "multicolor",
-              "value": {
-                "type": "pure",
-                "pure": "#3B3B84",
-                "linear": {
-                  "stops": [
-                    {
-                      "offset": 0,
-                      "color": "#3B3B84"
-                    },
-                    {
-                      "offset": 100,
-                      "color": "#3B3B84"
-                    }
-                  ],
-                  "angle": 0,
-                  "opacity": 1
-                }
-              }
-            },
-            {
-              "name": "borderWidth",
-              "displayName": "宽度",
-              "type": "number",
-              "value": 1
-            },
-            {
-              "name": "borderDirection",
-              "displayName": "方向",
-              "type": "select",
-              "value": "all",
-              "config": {
-                "options": [
-                  {
-                    "name": "横向",
-                    "value": "horizontal"
-                  },
-                  {
-                    "name": "竖向",
-                    "value": "vertical"
-                  },
-                  {
-                    "name": "全部",
-                    "value": "all"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "rowStyle",
-      "displayName": "行配置",
-      "value": [
-        {
-          "name": "rowHeight",
-          "displayName": "高度",
-          "type": "number",
-          "value": 40
-        },
-        {
-          "name": "rowGap",
-          "displayName": "行间距",
-          "type": "number",
-          "value": 4
-        },
-        {
-          "name": "bodyTextStyle",
-          "displayName": "文字",
-          "type": "textStyle",
-          "value": {
-            "fontFamily": "Microsoft Yahei",
-            "fontSize": 12,
-            "color": "#e0e0e0",
-            "bold": false,
-            "italic": false
-          }
-        },
-        {
-          "name": "bodyBgColor",
-          "displayName": "背景色",
-          "type": "multicolor",
-          "value": {
-            "type": "pure",
-            "pure": "#1D3769",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#1D3769"
-                },
-                {
-                  "offset": 100,
-                  "color": "#1D3769"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        },
-        {
-          "name": "stripeBgColor",
-          "displayName": "斑马纹",
-          "type": "multicolor",
-          "value": {
-            "type": "pure",
-            "pure": "#092642",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#0B2C4D"
-                },
-                {
-                  "offset": 100,
-                  "color": "#0B2C4D"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        },
-        {
-          "name": "hoverBgColor",
-          "displayName": "鼠标悬停",
-          "type": "multicolor",
-          "value": {
-            "type": "pure",
-            "pure": "#0E656E",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#0E656E"
-                },
-                {
-                  "offset": 100,
-                  "color": "#0E656E"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        },
-        {
-          "name": "currentRowBgColor",
-          "displayName": "点击高亮",
-          "type": "multicolor",
-          "value": {
-            "type": "pure",
-            "pure": "#6e3909",
-            "linear": {
-              "stops": [
-                {
-                  "offset": 0,
-                  "color": "#6e3909"
-                },
-                {
-                  "offset": 100,
-                  "color": "#6e3909"
-                }
-              ],
-              "angle": 0,
-              "opacity": 1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "columnStyle",
-      "displayName": "列配置",
-      "value": [
-        {
-          "name": "indexColumn",
-          "displayName": "序号列",
-          "value": [
-            {
-              "name": "show",
-              "displayName": "显示",
-              "type": "boolean",
-              "value": true
-            },
-            {
-              "name": "indexFixed",
-              "displayName": "固定列",
-              "type": "boolean",
-              "value": false
-            },
-            {
-              "name": "indexLabel",
-              "displayName": "标题",
+              "name": "emptyText",
+              "displayName": "空数据提示",
               "type": "input",
-              "value": "序号"
+              "value": "暂无数据"
             },
             {
-              "name": "indexStart",
-              "displayName": "起始值",
-              "type": "number",
-              "value": 1
-            },
-            {
-              "name": "indexWidth",
-              "displayName": "列宽",
-              "type": "number",
-              "value": 60
-            },
-            {
-              "type": "select",
-              "name": "indexAlign",
-              "displayName": "对齐方式",
-              "value": "center",
-              "config": {
-                "options": [
-                  {
-                    "name": "左对齐",
-                    "value": "left"
-                  },
-                  {
-                    "name": "居中",
-                    "value": "center"
-                  },
-                  {
-                    "name": "右对齐",
-                    "value": "right"
+              "name": "border",
+              "displayName": "边框",
+              "value": [
+                {
+                  "name": "show",
+                  "displayName": "显示",
+                  "type": "boolean",
+                  "value": false
+                },
+                {
+                  "name": "borderColor",
+                  "displayName": "颜色",
+                  "type": "multicolor",
+                  "value": {
+                    "type": "pure",
+                    "pure": "#3B3B84",
+                    "linear": {
+                      "stops": [
+                        {
+                          "offset": 0,
+                          "color": "#3B3B84"
+                        },
+                        {
+                          "offset": 100,
+                          "color": "#3B3B84"
+                        }
+                      ],
+                      "angle": 0,
+                      "opacity": 1
+                    }
                   }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "columnConfig",
-          "displayName": "列配置",
-          "value": [
-            {
-              "name": "columns",
-              "displayName": "列定义",
-              "type": "jscode",
-              "value": "return [\n  {\n    \"prop\": \"name\",\n    \"label\": \"部门/团队\",\n    \"width\": 200,\n    \"align\": \"left\"\n  },\n  {\n    \"prop\": \"manager\",\n    \"label\": \"负责人\",\n    \"width\": 100\n  },\n  {\n    \"prop\": \"employeeCount\",\n    \"label\": \"人数\",\n  \"sortable\": true,\n   \"width\": 80,\n    \"align\": \"center\"\n  },\n  {\n    \"prop\": \"status\",\n    \"label\": \"状态\",\n    \"width\": 80,\n    \"align\": \"center\"\n  }\n];",
-              "config": {
-                "placeholder": "return [\n  {\n    \"prop\": \"id\",\n    \"label\": \"ID\",\n    \"width\": 60\n  },\n  {\n    \"prop\": \"name\",\n    \"label\": \"姓名\",\n    \"width\": 80\n  },\n  {\n    \"label\": \"地址信息\",\n    \"children\": [\n      {\n        \"prop\": \"province\",\n        \"label\": \"省份\",\n        \"width\": 100\n      },\n      {\n        \"prop\": \"city\",\n        \"label\": \"城市\",\n        \"width\": 100\n      }\n    ]\n  },\n  {\n    \"prop\": \"age\",\n    \"label\": \"年龄\",\n    \"width\": 80,\n    \"align\": \"right\",\n    \"sortable\": true\n  }\n];"
-              },
-              "tip": "列定义生成脚本<br/><br/>可用变量：<br/>data - 数据源数据（数组）<br/><br/>需返回列配置数组<br/><br/>列配置属性：<br/>prop(字段名)<br/>label(显示名,支持富文本)<br/>width(列宽)<br/>align(对齐方式:left/center/right)<br/>headerAlign(表头对齐)<br/>fixed(固定列:left/right/true)<br/>sortable(可排序:true/false)<br/>sortScript(自定义排序脚本)<br/>children(子列数组,用于多级表头)<br/><br/>示例：根据数据动态生成<br/>if (data && data.length > 0) {<br/>  return Object.keys(data[0]).map(key => ({<br/>    prop: key,<br/>    label: key,<br/>    width: 100<br/>  }));<br/>}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "expandConfig",
-      "displayName": "展开行",
-      "value": [
-        {
-          "name": "enableExpand",
-          "displayName": "启用展开行",
-          "type": "boolean",
-          "value": false
-        },
-        {
-          "name": "expandIconColumn",
-          "displayName": "展开图标位置",
-          "type": "select",
-          "value": "separate",
-          "tip": "separate会在最左侧添加专门的展开列",
-          "config": {
-            "options": [
-              {
-                "name": "第一列",
-                "value": "first"
-              },
-              {
-                "name": "单独列",
-                "value": "separate"
-              }
-            ]
-          }
-        },
-        {
-          "name": "expandColumnWidth",
-          "displayName": "展开列宽度",
-          "type": "number",
-          "value": 48
-        },
-        {
-          "name": "expandColumnLabel",
-          "displayName": "展开列标题",
-          "type": "input",
-          "value": ""
-        },
-        {
-          "name": "accordion",
-          "displayName": "手风琴模式",
-          "type": "boolean",
-          "value": false,
-          "tip": "开启后同时只能展开一行"
-        },
-        {
-          "name": "defaultExpandAll",
-          "displayName": "默认全部展开",
-          "type": "boolean",
-          "value": false
-        },
-        {
-          "name": "expandIcon",
-          "displayName": "展开图标(HTML)",
-          "type": "jscode",
-          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z\"/></svg>"
-        },
-        {
-          "name": "collapseIcon",
-          "displayName": "收起图标(HTML)",
-          "type": "jscode",
-          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z\"/></svg>"
-        },
-        {
-          "name": "expandRenderScript",
-          "displayName": "展开内容渲染函数",
-          "type": "jscode",
-          "language": "javascript",
-          "value": "// 参数: row (当前行数据), rowIndex (行索引)\n// 返回: HTML 字符串\nreturn `\n  <div style=\"padding: 20px; background: #f5f5f5;\">\n    <p><strong>详细信息</strong></p>\n    <p>ID: ${row.id}</p>\n    <p>名称: ${row.name}</p>\n  </div>\n`"
-        }
-      ]
-    },
-    {
-      "name": "treeConfig",
-      "displayName": "树形表格",
-      "value": [
-        {
-          "name": "enableTree",
-          "displayName": "启用树形表格",
-          "type": "boolean",
-          "value": true
-        },
-        {
-          "name": "childrenField",
-          "displayName": "子级字段名",
-          "type": "input",
-          "value": "children",
-          "tip": "数据中子级数组的字段名"
-        },
-        {
-          "name": "treeColumn",
-          "displayName": "树形列字段",
-          "type": "input",
-          "value": "name",
-          "tip": "在哪一列显示树形结构（填写字段的prop值）"
-        },
-        {
-          "name": "indent",
-          "displayName": "缩进像素",
-          "type": "number",
-          "value": 20,
-          "tip": "每一层级的缩进大小"
-        },
-        {
-          "name": "defaultExpandAll",
-          "displayName": "默认全部展开",
-          "type": "boolean",
-          "value": false
-        },
-        {
-          "name": "defaultExpandLevel",
-          "displayName": "默认展开层级",
-          "type": "number",
-          "value": 1,
-          "tip": "默认展开的层级数，0表示全部收起，-1表示全部展开"
-        },
-        {
-          "name": "treeExpandIcon",
-          "displayName": "展开图标(HTML)",
-          "type": "jscode",
-          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z\"/></svg>"
-        },
-        {
-          "name": "treeCollapseIcon",
-          "displayName": "收起图标(HTML)",
-          "type": "jscode",
-          "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z\"/></svg>"
-        },
-        {
-          "name": "lazy",
-          "displayName": "启用懒加载",
-          "type": "boolean",
-          "value": false,
-          "tip": "是否启用树节点懒加载"
-        },
-        {
-          "name": "lazyLoadScript",
-          "displayName": "懒加载函数",
-          "type": "jscode",
-          "language": "javascript",
-          "value": "// 参数: row (当前节点), resolve (回调函数)\n// 异步加载子节点数据后调用 resolve(childrenData)\n// 示例:\n// setTimeout(() => {\n//   const children = [\n//     { id: `${row.id}-1`, name: '子节点1' },\n//     { id: `${row.id}-2`, name: '子节点2' }\n//   ];\n//   resolve(children);\n// }, 1000);",
-          "tip": "懒加载时的数据加载函数"
-        }
-      ]
-    },
-    {
-      "name": "advancedStyle",
-      "displayName": "高级配置",
-      "value": [
-        {
-          "name": "header",
-          "displayName": "表头行样式",
-          "value": [
-            {
-              "name": "headerStyle",
-              "displayName": "样式",
-              "type": "jscode",
-              "value": "// 表头左上角三角图标\nreturn {\n  background: `\n    repeating-linear-gradient(135deg, rgba(127,170,212,0.078), rgba(127,170,212,0.078) 1px, transparent 1px, transparent 8px),\n    var(--header-bg)\n  `\n};",
-              "config": {
-                "placeholder": "return {\n  background: `\n    repeating-linear-gradient(135deg, rgba(127,170,212,0.078), rgba(127,170,212,0.078) 1px, transparent 1px, transparent 8px),\n    var(--header-bg)\n  `\n};"
-              },
-              "tip": "表头整体的自定义样式脚本<br/><br/>无可用变量，直接返回样式对象<br/><br/>示例：添加条纹背景叠加<br/>return {<br/>  background: `repeating-linear-gradient(...), var(--header-bg)`<br/>};"
-            }
-          ]
-        },
-        {
-          "name": "headerCell",
-          "displayName": "表头单元格",
-          "value": [
-            {
-              "name": "headerCellStyle",
-              "displayName": "样式",
-              "type": "jscode",
-              "value": "",
-              "config": {
-                "placeholder": "if (column.prop === 'foo') {\n  return { color: '#409eff' };\n}\nreturn {};"
-              },
-              "tip": "表头单元格的自定义样式脚本<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>需返回样式对象"
+                },
+                {
+                  "name": "borderWidth",
+                  "displayName": "宽度",
+                  "type": "number",
+                  "value": 1
+                },
+                {
+                  "name": "borderDirection",
+                  "displayName": "方向",
+                  "type": "select",
+                  "value": "all",
+                  "config": {
+                    "options": [
+                      {
+                        "name": "横向",
+                        "value": "horizontal"
+                      },
+                      {
+                        "name": "竖向",
+                        "value": "vertical"
+                      },
+                      {
+                        "name": "全部",
+                        "value": "all"
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
-              "name": "headerCellRender",
-              "displayName": "渲染",
-              "type": "jscode",
-              "value": "if (leafColumnIndex === 0) {\n  return {\n    prefix: {\n      type: 'html',\n      position: 'topLeft',\n      content: '<svg style=\"margin-left: 4px; margin-top: 4px;\" width=\"5\" height=\"5\" viewBox=\"0 0 5 5\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0H5L0 5V0Z\" fill=\"#EBB670\"/></svg>'\n    }\n  };\n}",
-              "config": {
-                "placeholder": "if (leafColumnIndex === 0) {\n  return {\n    prefix: {\n      type: 'html',\n      position: 'topLeft',\n      content: '<svg width=\"5\" height=\"5\" viewBox=\"0 0 5 5\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0H5L0 5V0Z\" fill=\"#EBB670\"/></svg>'\n    }\n  };\n}"
-              },
-              "tip": "表头单元格渲染脚本，支持添加装饰元素<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}"
+              "name": "scrollConfig",
+              "displayName": "滚动配置",
+              "value": [
+                {
+                  "name": "autoScroll",
+                  "displayName": "自动滚动",
+                  "type": "boolean",
+                  "value": false
+                },
+                {
+                  "name": "scrollSpeed",
+                  "displayName": "滚动速度(ms)",
+                  "type": "number",
+                  "value": 50
+                },
+                {
+                  "name": "scrollPauseOnHover",
+                  "displayName": "悬停暂停",
+                  "type": "boolean",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "name": "scrollbarColor",
+              "displayName": "滚动条颜色",
+              "type": "color",
+              "value": "#1D3769"
+            }
+          ]
+        },
+        {
+          "name": "headerStyle",
+          "displayName": "表头",
+          "value": [
+            {
+              "name": "headerHeight",
+              "displayName": "高度",
+              "type": "number",
+              "value": 40
+            },
+            {
+              "name": "headerBgColor",
+              "displayName": "背景色",
+              "type": "multicolor",
+              "value": {
+                "type": "linear",
+                "pure": "#1a1a2e",
+                "linear": {
+                  "stops": [
+                    {
+                      "offset": 0,
+                      "color": "#234090"
+                    },
+                    {
+                      "offset": 100,
+                      "color": "#0e1629"
+                    }
+                  ],
+                  "angle": 0,
+                  "opacity": 1
+                }
+              }
+            },
+            {
+              "name": "headerTextStyle",
+              "displayName": "文字",
+              "type": "textStyle",
+              "value": {
+                "fontFamily": "Microsoft Yahei",
+                "fontSize": 12,
+                "color": "#ffffff",
+                "bold": false,
+                "italic": true
+              }
+            },
+            {
+              "name": "border",
+              "displayName": "边框",
+              "value": [
+                {
+                  "name": "show",
+                  "displayName": "启用独立配置",
+                  "tip": "开启后表头边框受本配置控制,关闭则受全局边框配置控制",
+                  "type": "boolean",
+                  "value": false
+                },
+                {
+                  "name": "borderColor",
+                  "displayName": "颜色",
+                  "type": "multicolor",
+                  "value": {
+                    "type": "pure",
+                    "pure": "#3B3B84",
+                    "linear": {
+                      "stops": [
+                        {
+                          "offset": 0,
+                          "color": "#3B3B84"
+                        },
+                        {
+                          "offset": 100,
+                          "color": "#3B3B84"
+                        }
+                      ],
+                      "angle": 0,
+                      "opacity": 1
+                    }
+                  }
+                },
+                {
+                  "name": "borderWidth",
+                  "displayName": "宽度",
+                  "type": "number",
+                  "value": 1
+                },
+                {
+                  "name": "borderDirection",
+                  "displayName": "方向",
+                  "type": "select",
+                  "value": "all",
+                  "config": {
+                    "options": [
+                      {
+                        "name": "横向",
+                        "value": "horizontal"
+                      },
+                      {
+                        "name": "竖向",
+                        "value": "vertical"
+                      },
+                      {
+                        "name": "全部",
+                        "value": "all"
+                      }
+                    ]
+                  }
+                }
+              ]
             }
           ]
         },
         {
           "name": "rowStyle",
-          "displayName": "数据行样式",
+          "displayName": "行配置",
           "value": [
             {
-              "name": "rowStyle",
-              "displayName": "样式",
-              "type": "jscode",
-              "value": "",
-              "config": {
-                "placeholder": "if (row.status === 'warning') {\n  return { backgroundColor: '#fdf6ec' };\n}\nreturn {};"
-              },
-              "tip": "行的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>rowIndex - 行索引<br/><br/>需返回样式对象"
+              "name": "rowHeight",
+              "displayName": "高度",
+              "type": "number",
+              "value": 40
+            },
+            {
+              "name": "rowGap",
+              "displayName": "行间距",
+              "type": "number",
+              "value": 4
+            },
+            {
+              "name": "bodyTextStyle",
+              "displayName": "文字",
+              "type": "textStyle",
+              "value": {
+                "fontFamily": "Microsoft Yahei",
+                "fontSize": 12,
+                "color": "#e0e0e0",
+                "bold": false,
+                "italic": false
+              }
+            },
+            {
+              "name": "bodyBgColor",
+              "displayName": "背景色",
+              "type": "multicolor",
+              "value": {
+                "type": "pure",
+                "pure": "#1D3769",
+                "linear": {
+                  "stops": [
+                    {
+                      "offset": 0,
+                      "color": "#1D3769"
+                    },
+                    {
+                      "offset": 100,
+                      "color": "#1D3769"
+                    }
+                  ],
+                  "angle": 0,
+                  "opacity": 1
+                }
+              }
+            },
+            {
+              "name": "stripeBgColor",
+              "displayName": "斑马纹",
+              "type": "multicolor",
+              "value": {
+                "type": "pure",
+                "pure": "#092642",
+                "linear": {
+                  "stops": [
+                    {
+                      "offset": 0,
+                      "color": "#0B2C4D"
+                    },
+                    {
+                      "offset": 100,
+                      "color": "#0B2C4D"
+                    }
+                  ],
+                  "angle": 0,
+                  "opacity": 1
+                }
+              }
+            },
+            {
+              "name": "hoverBgColor",
+              "displayName": "鼠标悬停",
+              "type": "multicolor",
+              "value": {
+                "type": "pure",
+                "pure": "#0E656E",
+                "linear": {
+                  "stops": [
+                    {
+                      "offset": 0,
+                      "color": "#0E656E"
+                    },
+                    {
+                      "offset": 100,
+                      "color": "#0E656E"
+                    }
+                  ],
+                  "angle": 0,
+                  "opacity": 1
+                }
+              }
+            },
+            {
+              "name": "currentRowBgColor",
+              "displayName": "点击高亮",
+              "type": "multicolor",
+              "value": {
+                "type": "pure",
+                "pure": "#6e3909",
+                "linear": {
+                  "stops": [
+                    {
+                      "offset": 0,
+                      "color": "#6e3909"
+                    },
+                    {
+                      "offset": 100,
+                      "color": "#6e3909"
+                    }
+                  ],
+                  "angle": 0,
+                  "opacity": 1
+                }
+              }
             }
           ]
         },
         {
-          "name": "cell",
-          "displayName": "数据单元格",
+          "name": "columnStyle",
+          "displayName": "列配置",
           "value": [
             {
-              "name": "cellStyle",
-              "displayName": "样式",
-              "type": "jscode",
-              "value": "",
-              "config": {
-                "placeholder": "if (column.prop === 'foo') {\n  return { color: '#f56c6c' };\n}\nreturn {};"
-              },
-              "tip": "单元格的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>需返回样式对象"
+              "name": "indexColumn",
+              "displayName": "序号列",
+              "value": [
+                {
+                  "name": "show",
+                  "displayName": "显示",
+                  "type": "boolean",
+                  "value": false
+                },
+                {
+                  "name": "indexFixed",
+                  "displayName": "固定列",
+                  "type": "boolean",
+                  "value": false
+                },
+                {
+                  "name": "indexLabel",
+                  "displayName": "标题",
+                  "type": "input",
+                  "value": "序号"
+                },
+                {
+                  "name": "indexStart",
+                  "displayName": "起始值",
+                  "type": "number",
+                  "value": 1
+                },
+                {
+                  "name": "indexWidth",
+                  "displayName": "列宽",
+                  "type": "number",
+                  "value": 60
+                },
+                {
+                  "type": "select",
+                  "name": "indexAlign",
+                  "displayName": "对齐方式",
+                  "value": "center",
+                  "config": {
+                    "options": [
+                      {
+                        "name": "左对齐",
+                        "value": "left"
+                      },
+                      {
+                        "name": "居中",
+                        "value": "center"
+                      },
+                      {
+                        "name": "右对齐",
+                        "value": "right"
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
-              "name": "cellRender",
-              "displayName": "渲染",
-              "type": "jscode",
-              "value": "if (column.prop === '__index__') {\n  const icons = {\n    1: '<svg width=\"55\" height=\"23\" viewBox=\"0 0 55 23\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74677)\"/> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74677)\" fill-opacity=\"0.7\"/> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74677)\" fill-opacity=\"0.7\"/> <mask id=\"mask0_67_74677\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"48\" height=\"16\"> <rect width=\"48\" height=\"16\" fill=\"url(#paint3_radial_67_74677)\"/> </mask> <g mask=\"url(#mask0_67_74677)\"> <path d=\"M-4 5H59.2192\" stroke=\"#FFFF7F\" stroke-opacity=\"0.03\"/> <path d=\"M-4 8H59.2192\" stroke=\"#FFFF71\" stroke-opacity=\"0.05\"/> <path d=\"M-4 11H59.2192\" stroke=\"#FFFF77\" stroke-opacity=\"0.0588235\"/> <path d=\"M-4 14H59.2192\" stroke=\"#FFFF55\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74677)\"> <path d=\"M31.02 0.76L28.18 15H25.7L27.98 3.6L24.74 5.94L25.3 3.08L28.54 0.76H31.02Z\" fill=\"#B2BBD7\"/> <path d=\"M31.02 0.76L28.18 15H25.7L27.98 3.6L24.74 5.94L25.3 3.08L28.54 0.76H31.02Z\" fill=\"url(#paint4_linear_67_74677)\"/> </g> <defs> <filter id=\"filter0_d_67_74677\" x=\"20.74\" y=\"0.759766\" width=\"14.28\" height=\"22.2402\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0.470183 0 0 0 0 0.28211 0 0 0 0 0 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74677\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74677\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74677\" x1=\"5\" y1=\"11\" x2=\"50\" y2=\"11\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#D89F35\" stop-opacity=\"0\"/> <stop offset=\"0.250101\" stop-color=\"#D89E36\" stop-opacity=\"0.21\"/> <stop offset=\"0.472594\" stop-color=\"#D89E36\" stop-opacity=\"0.54902\"/> <stop offset=\"0.545379\" stop-color=\"#D89E36\" stop-opacity=\"0.54902\"/> <stop offset=\"0.780134\" stop-color=\"#D89F35\" stop-opacity=\"0.19\"/> <stop offset=\"1\" stop-color=\"#D89F35\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(27.5 14) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#D89E35\" stop-opacity=\"0.933333\"/> <stop offset=\"1\" stop-color=\"#D89E35\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(27.5 14) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#D89E35\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#D89E35\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24 16) rotate(-90) scale(22.5 24)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74677\" x1=\"27.5\" y1=\"-2\" x2=\"27.5\" y2=\"16\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#FFDFAF\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>',\n    2: '<svg width=\"51\" height=\"26\" viewBox=\"0 0 51 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74688)\"/> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74688)\" fill-opacity=\"0.5\"/> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74688)\" fill-opacity=\"0.5\"/> <mask id=\"mask0_67_74688\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"2\" y=\"3\" width=\"47\" height=\"16\"> <rect x=\"2\" y=\"3\" width=\"47\" height=\"16\" fill=\"url(#paint3_radial_67_74688)\"/> </mask> <g mask=\"url(#mask0_67_74688)\"> <path d=\"M-6.10962 8H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.03\"/> <path d=\"M-6.10962 11H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.05\"/> <path d=\"M-6.10962 14H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.06\"/> <path d=\"M-6.10962 17H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74688)\"> <path d=\"M30.88 7.18C30.88 9.12 29.56 10.28 28.74 11.12L24.18 15.78H29.42L28.96 18H20.56L21.02 15.78L27.18 9.52C28 8.68 28.38 8.16 28.38 7.3C28.38 6.38 27.88 5.86 27.02 5.86C26.12 5.86 25.28 6.34 24.96 7.72H22.46C22.94 5 24.68 3.64 27.28 3.64C29.5 3.64 30.88 4.92 30.88 7.18Z\" fill=\"#B2BBD7\"/> <path d=\"M30.88 7.18C30.88 9.12 29.56 10.28 28.74 11.12L24.18 15.78H29.42L28.96 18H20.56L21.02 15.78L27.18 9.52C28 8.68 28.38 8.16 28.38 7.3C28.38 6.38 27.88 5.86 27.02 5.86C26.12 5.86 25.28 6.34 24.96 7.72H22.46C22.94 5 24.68 3.64 27.28 3.64C29.5 3.64 30.88 4.92 30.88 7.18Z\" fill=\"url(#paint4_linear_67_74688)\"/> </g> <defs> <filter id=\"filter0_d_67_74688\" x=\"16.5601\" y=\"3.64014\" width=\"18.3198\" height=\"22.3599\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0.227255 0 0 0 0 0.470183 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74688\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74688\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74688\" x1=\"3\" y1=\"14\" x2=\"48\" y2=\"14\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#A6BFD4\" stop-opacity=\"0\"/> <stop offset=\"0.219683\" stop-color=\"#A6BFD4\" stop-opacity=\"0.17\"/> <stop offset=\"0.472594\" stop-color=\"#A6BFD4\" stop-opacity=\"0.517647\"/> <stop offset=\"0.545379\" stop-color=\"#A6BFD4\" stop-opacity=\"0.521569\"/> <stop offset=\"0.804357\" stop-color=\"#A6BFD4\" stop-opacity=\"0.18\"/> <stop offset=\"1\" stop-color=\"#A6BFD4\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 17) rotate(90) scale(10 17.2056)\"> <stop stop-color=\"#A7BED4\" stop-opacity=\"0.933333\"/> <stop offset=\"0.634093\" stop-color=\"#A7BED4\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 17) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#A7BED4\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#A7BED4\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 19) rotate(-90) scale(22.5 23.5)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74688\" x1=\"26\" y1=\"1\" x2=\"26\" y2=\"19\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#B3CDDD\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>',\n    3: '<svg width=\"48\" height=\"24\" viewBox=\"0 0 48 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74699)\"/> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74699)\" fill-opacity=\"0.5\"/> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74699)\" fill-opacity=\"0.5\"/> <mask id=\"mask0_67_74699\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"48\" height=\"16\"> <rect width=\"48\" height=\"16\" fill=\"url(#paint3_radial_67_74699)\"/> </mask> <g mask=\"url(#mask0_67_74699)\"> <path d=\"M-8 5H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.05\"/> <path d=\"M-8 8H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.05\"/> <path d=\"M-8 11H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.054902\"/> <path d=\"M-8 14H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74699)\"> <path d=\"M29.22 4.02C29.22 5.52 28.58 6.94 27.04 7.72C27.92 8.22 28.3 8.94 28.3 10.26C28.3 12.98 26.24 15.12 23.58 15.12C21.08 15.12 19.54 13.78 19.54 11.74C19.54 11.48 19.56 11.28 19.6 11.02H22.04C22.02 11.18 22 11.26 22 11.46C22 12.26 22.52 12.9 23.6 12.9C24.86 12.9 25.82 11.7 25.82 10.36C25.82 9.42 25.3 8.8 24.22 8.8H23.84L24.26 6.64H24.66C25.86 6.64 26.74 5.46 26.74 4.3C26.74 3.38 26.2 2.86 25.4 2.86C24.52 2.86 23.64 3.46 23.36 4.6H20.86C21.48 1.9 23.24 0.639999 25.74 0.639999C27.86 0.639999 29.22 2.12 29.22 4.02Z\" fill=\"#B2BBD7\"/> <path d=\"M29.22 4.02C29.22 5.52 28.58 6.94 27.04 7.72C27.92 8.22 28.3 8.94 28.3 10.26C28.3 12.98 26.24 15.12 23.58 15.12C21.08 15.12 19.54 13.78 19.54 11.74C19.54 11.48 19.56 11.28 19.6 11.02H22.04C22.02 11.18 22 11.26 22 11.46C22 12.26 22.52 12.9 23.6 12.9C24.86 12.9 25.82 11.7 25.82 10.36C25.82 9.42 25.3 8.8 24.22 8.8H23.84L24.26 6.64H24.66C25.86 6.64 26.74 5.46 26.74 4.3C26.74 3.38 26.2 2.86 25.4 2.86C24.52 2.86 23.64 3.46 23.36 4.6H20.86C21.48 1.9 23.24 0.639999 25.74 0.639999C27.86 0.639999 29.22 2.12 29.22 4.02Z\" fill=\"url(#paint4_linear_67_74699)\"/> </g> <defs> <filter id=\"filter0_d_67_74699\" x=\"15.54\" y=\"0.640137\" width=\"17.6799\" height=\"22.48\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0.470183 0 0 0 0 0.1724 0 0 0 0 0 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74699\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74699\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74699\" x1=\"2\" y1=\"11\" x2=\"47\" y2=\"11\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#BD8351\" stop-opacity=\"0\"/> <stop offset=\"0.213803\" stop-color=\"#BF8551\" stop-opacity=\"0.172549\"/> <stop offset=\"0.472594\" stop-color=\"#BD8351\" stop-opacity=\"0.517647\"/> <stop offset=\"0.545379\" stop-color=\"#BD8351\" stop-opacity=\"0.517647\"/> <stop offset=\"0.84475\" stop-color=\"#BB8650\" stop-opacity=\"0.14902\"/> <stop offset=\"1\" stop-color=\"#BD8351\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24.5 14) rotate(90) scale(10 19.3906)\"> <stop stop-color=\"#BC8352\" stop-opacity=\"0.933333\"/> <stop offset=\"0.634093\" stop-color=\"#BC8352\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24.5 14) rotate(90) scale(10 10.8263)\"> <stop stop-color=\"#E7A46C\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#BC8352\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24 16) rotate(-90) scale(22.5 24)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74699\" x1=\"24.5\" y1=\"-2\" x2=\"24.5\" y2=\"16\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#CA8164\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>'\n  };\n  if (icons[value]) {\n    return {\n      content: {\n        type: 'html',\n        content: icons[value]\n      }\n    };\n  }\n}\nreturn {};",
+              "name": "columnConfig",
+              "displayName": "列配置",
+              "value": [
+                {
+                  "name": "columns",
+                  "displayName": "列定义",
+                  "type": "jscode",
+                  "value": "return [\n  {\n    \"prop\": \"name\",\n    \"label\": \"部门/团队\",\n    \"width\": 200,\n    \"align\": \"left\"\n  },\n  {\n    \"prop\": \"manager\",\n    \"label\": \"负责人\",\n    \"width\": 100\n  },\n  {\n    \"prop\": \"employeeCount\",\n    \"label\": \"人数\",\n  \"sortable\": true,\n   \"width\": 80,\n    \"align\": \"center\"\n  },\n  {\n    \"prop\": \"status\",\n    \"label\": \"状态\",\n    \"width\": 80,\n    \"align\": \"center\"\n  }\n];",
+                  "config": {
+                    "placeholder": "return [\n  {\n    \"prop\": \"id\",\n    \"label\": \"ID\",\n    \"width\": 60\n  },\n  {\n    \"prop\": \"name\",\n    \"label\": \"姓名\",\n    \"width\": 80\n  },\n  {\n    \"label\": \"地址信息\",\n    \"children\": [\n      {\n        \"prop\": \"province\",\n        \"label\": \"省份\",\n        \"width\": 100\n      },\n      {\n        \"prop\": \"city\",\n        \"label\": \"城市\",\n        \"width\": 100\n      }\n    ]\n  },\n  {\n    \"prop\": \"age\",\n    \"label\": \"年龄\",\n    \"width\": 80,\n    \"align\": \"right\",\n    \"sortable\": true\n  }\n];"
+                  },
+                  "tip": "列定义生成脚本<br/><br/>可用变量：<br/>data - 数据源数据（数组）<br/><br/>需返回列配置数组<br/><br/>列配置属性：<br/>prop(字段名)<br/>label(显示名,支持富文本)<br/>width(列宽)<br/>align(对齐方式:left/center/right)<br/>headerAlign(表头对齐)<br/>fixed(固定列:left/right/true)<br/>sortable(可排序:true/false)<br/>sortScript(自定义排序脚本)<br/>children(子列数组,用于多级表头)<br/><br/>示例：根据数据动态生成<br/>if (data && data.length > 0) {<br/>  return Object.keys(data[0]).map(key => ({<br/>    prop: key,<br/>    label: key,<br/>    width: 100<br/>  }));<br/>}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "expandConfig",
+          "displayName": "展开行",
+          "value": [
+            {
+              "name": "enableExpand",
+              "displayName": "启用展开行",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "expandIconColumn",
+              "displayName": "展开图标位置",
+              "type": "select",
+              "value": "separate",
+              "tip": "separate会在最左侧添加专门的展开列",
               "config": {
-                "placeholder": "if (column.prop === '__index__') {\n  const icons = {\n    1: '<svg>...</svg>',\n    2: '<svg>...</svg>',\n    3: '<svg>...</svg>'\n  };\n  if (icons[value]) {\n    return {\n      content: {\n        type: 'html',\n        content: icons[value]\n      }\n    };\n  }\n}\nreturn {};"
-              },
-              "tip": "单元格渲染脚本，支持自定义内容<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/>value - 单元格原始值<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}<br/><br/>配置项：<br/>- content: 替换内容<br/>- prefix: 前缀元素<br/>- suffix: 后缀元素<br/>- hideText: 是否隐藏原文字"
+                "options": [
+                  {
+                    "name": "第一列",
+                    "value": "first"
+                  },
+                  {
+                    "name": "单独列",
+                    "value": "separate"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "expandColumnWidth",
+              "displayName": "展开列宽度",
+              "type": "number",
+              "value": 48
+            },
+            {
+              "name": "expandColumnLabel",
+              "displayName": "展开列标题",
+              "type": "input",
+              "value": ""
+            },
+            {
+              "name": "accordion",
+              "displayName": "手风琴模式",
+              "type": "boolean",
+              "value": false,
+              "tip": "开启后同时只能展开一行"
+            },
+            {
+              "name": "defaultExpandAll",
+              "displayName": "默认全部展开",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "expandIcon",
+              "displayName": "展开图标(HTML)",
+              "type": "jscode",
+              "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z\"/></svg>"
+            },
+            {
+              "name": "collapseIcon",
+              "displayName": "收起图标(HTML)",
+              "type": "jscode",
+              "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z\"/></svg>"
+            },
+            {
+              "name": "expandRenderScript",
+              "displayName": "展开内容渲染函数",
+              "type": "jscode",
+              "language": "javascript",
+              "value": "// 参数: row (当前行数据), rowIndex (行索引)\n// 返回: HTML 字符串\nreturn `\n  <div style=\"padding: 20px; background: #f5f5f5;\">\n    <p><strong>详细信息</strong></p>\n    <p>ID: ${row.id}</p>\n    <p>名称: ${row.name}</p>\n  </div>\n`"
+            }
+          ]
+        },
+        {
+          "name": "treeConfig",
+          "displayName": "树形表格",
+          "value": [
+            {
+              "name": "enableTree",
+              "displayName": "启用树形表格",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "name": "childrenField",
+              "displayName": "子级字段名",
+              "type": "input",
+              "value": "children",
+              "tip": "数据中子级数组的字段名"
+            },
+            {
+              "name": "treeColumn",
+              "displayName": "树形列字段",
+              "type": "input",
+              "value": "name",
+              "tip": "在哪一列显示树形结构（填写字段的prop值）"
+            },
+            {
+              "name": "indent",
+              "displayName": "缩进像素",
+              "type": "number",
+              "value": 20,
+              "tip": "每一层级的缩进大小"
+            },
+            {
+              "name": "defaultExpandAll",
+              "displayName": "默认全部展开",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "name": "defaultExpandLevel",
+              "displayName": "默认展开层级",
+              "type": "number",
+              "value": 1,
+              "tip": "默认展开的层级数，0表示全部收起，-1表示全部展开"
+            },
+            {
+              "name": "treeExpandIcon",
+              "displayName": "展开图标(HTML)",
+              "type": "jscode",
+              "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6z\"/></svg>"
+            },
+            {
+              "name": "treeCollapseIcon",
+              "displayName": "收起图标(HTML)",
+              "type": "jscode",
+              "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"><path fill=\"currentColor\" d=\"M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z\"/></svg>"
+            },
+            {
+              "name": "lazy",
+              "displayName": "启用懒加载",
+              "type": "boolean",
+              "value": false,
+              "tip": "是否启用树节点懒加载"
+            },
+            {
+              "name": "lazyLoadScript",
+              "displayName": "懒加载函数",
+              "type": "jscode",
+              "language": "javascript",
+              "value": "// 参数: row (当前节点), resolve (回调函数)\n// 异步加载子节点数据后调用 resolve(childrenData)\n// 示例:\n// setTimeout(() => {\n//   const children = [\n//     { id: `${row.id}-1`, name: '子节点1' },\n//     { id: `${row.id}-2`, name: '子节点2' }\n//   ];\n//   resolve(children);\n// }, 1000);",
+              "tip": "懒加载时的数据加载函数"
+            }
+          ]
+        },
+        {
+          "name": "advancedStyle",
+          "displayName": "高级配置",
+          "value": [
+            {
+              "name": "header",
+              "displayName": "表头行样式",
+              "value": [
+                {
+                  "name": "headerStyle",
+                  "displayName": "样式",
+                  "type": "jscode",
+                  "value": "// 表头左上角三角图标\nreturn {\n  background: `\n    repeating-linear-gradient(135deg, rgba(127,170,212,0.078), rgba(127,170,212,0.078) 1px, transparent 1px, transparent 8px),\n    var(--header-bg)\n  `\n};",
+                  "config": {
+                    "placeholder": "return {\n  background: `\n    repeating-linear-gradient(135deg, rgba(127,170,212,0.078), rgba(127,170,212,0.078) 1px, transparent 1px, transparent 8px),\n    var(--header-bg)\n  `\n};"
+                  },
+                  "tip": "表头整体的自定义样式脚本<br/><br/>无可用变量，直接返回样式对象<br/><br/>示例：添加条纹背景叠加<br/>return {<br/>  background: `repeating-linear-gradient(...), var(--header-bg)`<br/>};"
+                }
+              ]
+            },
+            {
+              "name": "headerCell",
+              "displayName": "表头单元格",
+              "value": [
+                {
+                  "name": "headerCellStyle",
+                  "displayName": "样式",
+                  "type": "jscode",
+                  "value": "",
+                  "config": {
+                    "placeholder": "if (column.prop === 'foo') {\n  return { color: '#409eff' };\n}\nreturn {};"
+                  },
+                  "tip": "表头单元格的自定义样式脚本<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>需返回样式对象"
+                },
+                {
+                  "name": "headerCellRender",
+                  "displayName": "渲染",
+                  "type": "jscode",
+                  "value": "if (leafColumnIndex === 0) {\n  return {\n    prefix: {\n      type: 'html',\n      position: 'topLeft',\n      content: '<svg style=\"margin-left: 4px; margin-top: 4px;\" width=\"5\" height=\"5\" viewBox=\"0 0 5 5\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0H5L0 5V0Z\" fill=\"#EBB670\"/></svg>'\n    }\n  };\n}",
+                  "config": {
+                    "placeholder": "if (leafColumnIndex === 0) {\n  return {\n    prefix: {\n      type: 'html',\n      position: 'topLeft',\n      content: '<svg width=\"5\" height=\"5\" viewBox=\"0 0 5 5\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0H5L0 5V0Z\" fill=\"#EBB670\"/></svg>'\n    }\n  };\n}"
+                  },
+                  "tip": "表头单元格渲染脚本，支持添加装饰元素<br/><br/>可用变量：<br/>column - 列配置对象<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}"
+                }
+              ]
+            },
+            {
+              "name": "rowStyle",
+              "displayName": "数据行样式",
+              "value": [
+                {
+                  "name": "rowStyle",
+                  "displayName": "样式",
+                  "type": "jscode",
+                  "value": "",
+                  "config": {
+                    "placeholder": "if (row.status === 'warning') {\n  return { backgroundColor: '#fdf6ec' };\n}\nreturn {};"
+                  },
+                  "tip": "行的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>rowIndex - 行索引<br/><br/>需返回样式对象"
+                }
+              ]
+            },
+            {
+              "name": "cell",
+              "displayName": "数据单元格",
+              "value": [
+                {
+                  "name": "cellStyle",
+                  "displayName": "样式",
+                  "type": "jscode",
+                  "value": "",
+                  "config": {
+                    "placeholder": "if (column.prop === 'foo') {\n  return { color: '#f56c6c' };\n}\nreturn {};"
+                  },
+                  "tip": "单元格的自定义样式脚本<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/><br/>需返回样式对象"
+                },
+                {
+                  "name": "cellRender",
+                  "displayName": "渲染",
+                  "type": "jscode",
+                  "value": "if (column.prop === '__index__') {\n  const icons = {\n    1: '<svg width=\"55\" height=\"23\" viewBox=\"0 0 55 23\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74677)\"/> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74677)\" fill-opacity=\"0.7\"/> <rect x=\"5\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74677)\" fill-opacity=\"0.7\"/> <mask id=\"mask0_67_74677\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"48\" height=\"16\"> <rect width=\"48\" height=\"16\" fill=\"url(#paint3_radial_67_74677)\"/> </mask> <g mask=\"url(#mask0_67_74677)\"> <path d=\"M-4 5H59.2192\" stroke=\"#FFFF7F\" stroke-opacity=\"0.03\"/> <path d=\"M-4 8H59.2192\" stroke=\"#FFFF71\" stroke-opacity=\"0.05\"/> <path d=\"M-4 11H59.2192\" stroke=\"#FFFF77\" stroke-opacity=\"0.0588235\"/> <path d=\"M-4 14H59.2192\" stroke=\"#FFFF55\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74677)\"> <path d=\"M31.02 0.76L28.18 15H25.7L27.98 3.6L24.74 5.94L25.3 3.08L28.54 0.76H31.02Z\" fill=\"#B2BBD7\"/> <path d=\"M31.02 0.76L28.18 15H25.7L27.98 3.6L24.74 5.94L25.3 3.08L28.54 0.76H31.02Z\" fill=\"url(#paint4_linear_67_74677)\"/> </g> <defs> <filter id=\"filter0_d_67_74677\" x=\"20.74\" y=\"0.759766\" width=\"14.28\" height=\"22.2402\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0.470183 0 0 0 0 0.28211 0 0 0 0 0 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74677\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74677\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74677\" x1=\"5\" y1=\"11\" x2=\"50\" y2=\"11\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#D89F35\" stop-opacity=\"0\"/> <stop offset=\"0.250101\" stop-color=\"#D89E36\" stop-opacity=\"0.21\"/> <stop offset=\"0.472594\" stop-color=\"#D89E36\" stop-opacity=\"0.54902\"/> <stop offset=\"0.545379\" stop-color=\"#D89E36\" stop-opacity=\"0.54902\"/> <stop offset=\"0.780134\" stop-color=\"#D89F35\" stop-opacity=\"0.19\"/> <stop offset=\"1\" stop-color=\"#D89F35\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(27.5 14) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#D89E35\" stop-opacity=\"0.933333\"/> <stop offset=\"1\" stop-color=\"#D89E35\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(27.5 14) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#D89E35\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#D89E35\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74677\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24 16) rotate(-90) scale(22.5 24)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74677\" x1=\"27.5\" y1=\"-2\" x2=\"27.5\" y2=\"16\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#FFDFAF\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>',\n    2: '<svg width=\"51\" height=\"26\" viewBox=\"0 0 51 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74688)\"/> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74688)\" fill-opacity=\"0.5\"/> <rect x=\"3\" y=\"5\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74688)\" fill-opacity=\"0.5\"/> <mask id=\"mask0_67_74688\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"2\" y=\"3\" width=\"47\" height=\"16\"> <rect x=\"2\" y=\"3\" width=\"47\" height=\"16\" fill=\"url(#paint3_radial_67_74688)\"/> </mask> <g mask=\"url(#mask0_67_74688)\"> <path d=\"M-6.10962 8H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.03\"/> <path d=\"M-6.10962 11H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.05\"/> <path d=\"M-6.10962 14H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.06\"/> <path d=\"M-6.10962 17H57.1096\" stroke=\"#EBEBFF\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74688)\"> <path d=\"M30.88 7.18C30.88 9.12 29.56 10.28 28.74 11.12L24.18 15.78H29.42L28.96 18H20.56L21.02 15.78L27.18 9.52C28 8.68 28.38 8.16 28.38 7.3C28.38 6.38 27.88 5.86 27.02 5.86C26.12 5.86 25.28 6.34 24.96 7.72H22.46C22.94 5 24.68 3.64 27.28 3.64C29.5 3.64 30.88 4.92 30.88 7.18Z\" fill=\"#B2BBD7\"/> <path d=\"M30.88 7.18C30.88 9.12 29.56 10.28 28.74 11.12L24.18 15.78H29.42L28.96 18H20.56L21.02 15.78L27.18 9.52C28 8.68 28.38 8.16 28.38 7.3C28.38 6.38 27.88 5.86 27.02 5.86C26.12 5.86 25.28 6.34 24.96 7.72H22.46C22.94 5 24.68 3.64 27.28 3.64C29.5 3.64 30.88 4.92 30.88 7.18Z\" fill=\"url(#paint4_linear_67_74688)\"/> </g> <defs> <filter id=\"filter0_d_67_74688\" x=\"16.5601\" y=\"3.64014\" width=\"18.3198\" height=\"22.3599\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0.227255 0 0 0 0 0.470183 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74688\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74688\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74688\" x1=\"3\" y1=\"14\" x2=\"48\" y2=\"14\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#A6BFD4\" stop-opacity=\"0\"/> <stop offset=\"0.219683\" stop-color=\"#A6BFD4\" stop-opacity=\"0.17\"/> <stop offset=\"0.472594\" stop-color=\"#A6BFD4\" stop-opacity=\"0.517647\"/> <stop offset=\"0.545379\" stop-color=\"#A6BFD4\" stop-opacity=\"0.521569\"/> <stop offset=\"0.804357\" stop-color=\"#A6BFD4\" stop-opacity=\"0.18\"/> <stop offset=\"1\" stop-color=\"#A6BFD4\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 17) rotate(90) scale(10 17.2056)\"> <stop stop-color=\"#A7BED4\" stop-opacity=\"0.933333\"/> <stop offset=\"0.634093\" stop-color=\"#A7BED4\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 17) rotate(90) scale(10 10.8909)\"> <stop stop-color=\"#A7BED4\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#A7BED4\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74688\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(25.5 19) rotate(-90) scale(22.5 23.5)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74688\" x1=\"26\" y1=\"1\" x2=\"26\" y2=\"19\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#B3CDDD\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>',\n    3: '<svg width=\"48\" height=\"24\" viewBox=\"0 0 48 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint0_linear_67_74699)\"/> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint1_radial_67_74699)\" fill-opacity=\"0.5\"/> <rect x=\"2\" y=\"2\" width=\"45\" height=\"12\" fill=\"url(#paint2_radial_67_74699)\" fill-opacity=\"0.5\"/> <mask id=\"mask0_67_74699\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"48\" height=\"16\"> <rect width=\"48\" height=\"16\" fill=\"url(#paint3_radial_67_74699)\"/> </mask> <g mask=\"url(#mask0_67_74699)\"> <path d=\"M-8 5H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.05\"/> <path d=\"M-8 8H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.05\"/> <path d=\"M-8 11H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.054902\"/> <path d=\"M-8 14H55.2192\" stroke=\"#C8917F\" stroke-opacity=\"0.02\"/> </g> <g filter=\"url(#filter0_d_67_74699)\"> <path d=\"M29.22 4.02C29.22 5.52 28.58 6.94 27.04 7.72C27.92 8.22 28.3 8.94 28.3 10.26C28.3 12.98 26.24 15.12 23.58 15.12C21.08 15.12 19.54 13.78 19.54 11.74C19.54 11.48 19.56 11.28 19.6 11.02H22.04C22.02 11.18 22 11.26 22 11.46C22 12.26 22.52 12.9 23.6 12.9C24.86 12.9 25.82 11.7 25.82 10.36C25.82 9.42 25.3 8.8 24.22 8.8H23.84L24.26 6.64H24.66C25.86 6.64 26.74 5.46 26.74 4.3C26.74 3.38 26.2 2.86 25.4 2.86C24.52 2.86 23.64 3.46 23.36 4.6H20.86C21.48 1.9 23.24 0.639999 25.74 0.639999C27.86 0.639999 29.22 2.12 29.22 4.02Z\" fill=\"#B2BBD7\"/> <path d=\"M29.22 4.02C29.22 5.52 28.58 6.94 27.04 7.72C27.92 8.22 28.3 8.94 28.3 10.26C28.3 12.98 26.24 15.12 23.58 15.12C21.08 15.12 19.54 13.78 19.54 11.74C19.54 11.48 19.56 11.28 19.6 11.02H22.04C22.02 11.18 22 11.26 22 11.46C22 12.26 22.52 12.9 23.6 12.9C24.86 12.9 25.82 11.7 25.82 10.36C25.82 9.42 25.3 8.8 24.22 8.8H23.84L24.26 6.64H24.66C25.86 6.64 26.74 5.46 26.74 4.3C26.74 3.38 26.2 2.86 25.4 2.86C24.52 2.86 23.64 3.46 23.36 4.6H20.86C21.48 1.9 23.24 0.639999 25.74 0.639999C27.86 0.639999 29.22 2.12 29.22 4.02Z\" fill=\"url(#paint4_linear_67_74699)\"/> </g> <defs> <filter id=\"filter0_d_67_74699\" x=\"15.54\" y=\"0.640137\" width=\"17.6799\" height=\"22.48\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"> <feFlood flood-opacity=\"0\" result=\"BackgroundImageFix\"/> <feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0\" result=\"hardAlpha\"/> <feOffset dy=\"4\"/> <feGaussianBlur stdDeviation=\"2\"/> <feComposite in2=\"hardAlpha\" operator=\"out\"/> <feColorMatrix type=\"matrix\" values=\"0 0 0 0 0.470183 0 0 0 0 0.1724 0 0 0 0 0 0 0 0 0.28 0\"/> <feBlend mode=\"normal\" in2=\"BackgroundImageFix\" result=\"effect1_dropShadow_67_74699\"/> <feBlend mode=\"normal\" in=\"SourceGraphic\" in2=\"effect1_dropShadow_67_74699\" result=\"shape\"/> </filter> <linearGradient id=\"paint0_linear_67_74699\" x1=\"2\" y1=\"11\" x2=\"47\" y2=\"11\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#BD8351\" stop-opacity=\"0\"/> <stop offset=\"0.213803\" stop-color=\"#BF8551\" stop-opacity=\"0.172549\"/> <stop offset=\"0.472594\" stop-color=\"#BD8351\" stop-opacity=\"0.517647\"/> <stop offset=\"0.545379\" stop-color=\"#BD8351\" stop-opacity=\"0.517647\"/> <stop offset=\"0.84475\" stop-color=\"#BB8650\" stop-opacity=\"0.14902\"/> <stop offset=\"1\" stop-color=\"#BD8351\" stop-opacity=\"0\"/> </linearGradient> <radialGradient id=\"paint1_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24.5 14) rotate(90) scale(10 19.3906)\"> <stop stop-color=\"#BC8352\" stop-opacity=\"0.933333\"/> <stop offset=\"0.634093\" stop-color=\"#BC8352\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint2_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24.5 14) rotate(90) scale(10 10.8263)\"> <stop stop-color=\"#E7A46C\" stop-opacity=\"0.933333\"/> <stop offset=\"0.713146\" stop-color=\"#BC8352\" stop-opacity=\"0\"/> </radialGradient> <radialGradient id=\"paint3_radial_67_74699\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(24 16) rotate(-90) scale(22.5 24)\"> <stop stop-color=\"#D9D9D9\"/> <stop offset=\"1\" stop-color=\"#D9D9D9\" stop-opacity=\"0\"/> </radialGradient> <linearGradient id=\"paint4_linear_67_74699\" x1=\"24.5\" y1=\"-2\" x2=\"24.5\" y2=\"16\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"#CA8164\"/> <stop offset=\"1\" stop-color=\"#FFF1E7\" stop-opacity=\"0.33\"/> </linearGradient> </defs> </svg>'\n  };\n  if (icons[value]) {\n    return {\n      content: {\n        type: 'html',\n        content: icons[value]\n      }\n    };\n  }\n}\nreturn {};",
+                  "config": {
+                    "placeholder": "if (column.prop === '__index__') {\n  const icons = {\n    1: '<svg>...</svg>',\n    2: '<svg>...</svg>',\n    3: '<svg>...</svg>'\n  };\n  if (icons[value]) {\n    return {\n      content: {\n        type: 'html',\n        content: icons[value]\n      }\n    };\n  }\n}\nreturn {};"
+                  },
+                  "tip": "单元格渲染脚本，支持自定义内容<br/><br/>可用变量：<br/>row - 行数据对象<br/>column - 列配置对象<br/>rowIndex - 行索引<br/>columnIndex - 行内列索引<br/>leafColumnIndex - 全局叶子列索引<br/>value - 单元格原始值<br/><br/>返回渲染配置对象<br/><br/>支持的元素类型：<br/>- image: 图片 {type,src,width,height}<br/><br/>- text: 文本 {type,content,style}<br/><br/>- html: HTML/SVG {type,content}<br/><br/>配置项：<br/>- content: 替换内容<br/>- prefix: 前缀元素<br/>- suffix: 后缀元素<br/>- hideText: 是否隐藏原文字"
+                }
+              ]
             }
           ]
         }

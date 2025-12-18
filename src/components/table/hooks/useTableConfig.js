@@ -159,6 +159,9 @@ export function useTableConfig(configuration) {
     [scrollConfigGroup.autoScroll, scrollConfigGroup.scrollSpeed, scrollConfigGroup.scrollPauseOnHover]
   )
 
+  // 滚动条颜色配置
+  const scrollbarColor = tableStyle.scrollbarColor || '#092642'
+
   // 列配置脚本函数
   const columnScriptFn = useMemo(() => {
     const columnsScript = columnConfig.columns
@@ -298,6 +301,7 @@ export function useTableConfig(configuration) {
     headerStyle,
     bodyStyle,
     scrollConfig,
+    scrollbarColor,
     columnScriptFn,
     indexColumn,
     defaultSort,
